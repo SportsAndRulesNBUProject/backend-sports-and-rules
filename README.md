@@ -1,4 +1,4 @@
-### Sports history and rules catalogue NBU project
+### Backend part of the Sports history and rules catalogue NBU project
 
 #### Project dependencies
 1. JDK 1.8
