@@ -1,6 +1,6 @@
 package com.nbu.sportsandrules.controller;
 
-import com.nbu.sportsandrules.entity.ExampleEntity;
+import com.nbu.sportsandrules.entity.Example;
 import com.nbu.sportsandrules.service.ExampleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,7 +16,7 @@ public class ExampleController {
     private ExampleService exampleService;
 
     @GetMapping
-    public ResponseEntity<Iterable<ExampleEntity>> getAllExamples() {
+    public ResponseEntity<Iterable<Example>> getAllExamples() {
 
         return new ResponseEntity<>(exampleService.getAllExamples(),  HttpStatus.OK);
     }
