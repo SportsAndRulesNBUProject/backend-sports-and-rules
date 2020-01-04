@@ -1,6 +1,6 @@
 package com.nbu.sportsandrules.service;
 
-import com.nbu.sportsandrules.entity.ExampleEntity;
+import com.nbu.sportsandrules.entity.Example;
 import com.nbu.sportsandrules.repository.ExampleRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -12,12 +12,12 @@ public class ExampleService {
     private ExampleRepository exampleRepository;
 
     public void addExample(String example) {
-        ExampleEntity entity = new ExampleEntity();
+        Example entity = new Example();
         entity.setExampleProperty(example);
         exampleRepository.save(entity);
     }
 
-    public Iterable<ExampleEntity> getAllExamples() {
+    public Iterable<Example> getAllExamples() {
         return exampleRepository.findAll();
     }
 }

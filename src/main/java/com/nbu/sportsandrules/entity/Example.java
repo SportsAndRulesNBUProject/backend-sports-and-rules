@@ -6,14 +6,14 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity
-public class ExampleEntity {
+public class Example {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
     private String exampleProperty;
 
-    public ExampleEntity() {
+    public Example() {
     }
 
     public Integer getId() {
