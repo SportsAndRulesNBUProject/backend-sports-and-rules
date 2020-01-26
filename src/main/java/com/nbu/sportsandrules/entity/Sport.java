@@ -1,71 +1,138 @@
 package com.nbu.sportsandrules.entity;
 
-import javax.persistence.*;
+import java.util.ArrayList;
 import java.util.List;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nbu.sportsandrules.controller.body.AchievementBody;
+import com.nbu.sportsandrules.controller.body.SportBody;
 
 @Entity
 public class Sport {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
 
-    @JoinColumn(name = "category_id")
-    @ManyToOne(cascade = CascadeType.ALL)
-    private SportCategory category;
+	@JoinColumn(name = "category_id")
+	@ManyToOne
+	@NotNull
+	private SportCategory category;
 
-    private String history;
+	private String history;
 
-    @ManyToMany(cascade = {CascadeType.ALL})
-    @JoinTable(
-            name = "Sport_Achievement",
-            joinColumns = {@JoinColumn(name = "sport_id")},
-            inverseJoinColumns = {@JoinColumn(name = "achievement_id")}
-    )
-    private List<Achievement> achievements;
+	@OneToMany (mappedBy = "sport", cascade = { CascadeType.ALL })
+	@JsonIgnore
+	//@JoinTable(name = "Sport_Achievement", joinColumns = { @JoinColumn(name = "sport_id") }, inverseJoinColumns = {
+			//@JoinColumn(name = "achievement_id") })
+	private List<Achievement> achievements;
 
-    @OneToMany(mappedBy = "sport")
-    private List<Event> events;
+	@OneToMany(mappedBy = "sport")
+	@JsonIgnore
+	private List<Event> events;
 
-    public Sport() {
-    }
+	@NotBlank
+	private String name;
 
-    public Integer getId() {
-        return id;
-    }
+	@JsonIgnore
+	@OneToMany(mappedBy = "sport")
+	private List<League> leagues;
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Sport() {
+	}
 
-    public SportCategory getCategory() {
-        return category;
-    }
+	public Sport(String name, SportCategory sportCategory) {
+		this.name = name;
+		this.category = sportCategory;
+	}
 
-    public void setCategory(SportCategory category) {
-        this.category = category;
-    }
+	public List<League> getLeague() {
+		return leagues;
+	}
 
-    public String getHistory() {
-        return history;
-    }
+	public void setLeague(List<League> leagues) {
+		this.leagues = leagues;
+	}
 
-    public void setHistory(String history) {
-        this.history = history;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public List<Achievement> getAchievements() {
-        return achievements;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setAchievements(List<Achievement> achievements) {
-        this.achievements = achievements;
-    }
+	public SportCategory getCategory() {
+		return category;
+	}
 
-    public List<Event> getEvents() {
-        return events;
-    }
+	public void setCategory(SportCategory category) {
+		this.category = category;
+	}
 
-    public void setEvents(List<Event> events) {
-        this.events = events;
-    }
+	public String getHistory() {
+		return history;
+	}
+
+	public void setHistory(String history) {
+		this.history = history;
+	}
+
+	public List<Achievement> getAchievements() {
+		return achievements;
+	}
+
+	public void setAchievements(List<Achievement> achievements) {
+		this.achievements = achievements;
+	}
+
+	public List<Event> getEvents() {
+		return events;
+	}
+
+	public void setEvents(List<Event> events) {
+		this.events = events;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return "Sport [id=" + id + ", category=" + category.toString() + ", history=" + history + ", achievements="
+				+ achievements + ", events=" + events + ", name=" + name + "]";
+	}
+
+	public SportBody initSportBody() {
+		SportBody sportBody = new SportBody();
+		sportBody.setId(id);
+		sportBody.setName(name);
+		sportBody.setHistory(history);
+		sportBody.setCategoryId(category.getId());
+		List<AchievementBody> achievementBodys = new ArrayList<>();
+		for (Achievement achievement : achievements) {
+			AchievementBody achievementBody = achievement.initAchievementBody();
+			achievementBodys.add(achievementBody);
+		}
+		sportBody.setAchievements(achievementBodys);
+
+		return sportBody;
+	}
+
 }

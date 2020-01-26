@@ -2,12 +2,11 @@ package com.nbu.sportsandrules.entity;
 
 import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -15,7 +14,8 @@ import javax.validation.constraints.NotNull;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-public class SportCategory {
+public class SportType {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Integer id;
@@ -24,19 +24,11 @@ public class SportCategory {
 	@NotBlank
 	private String name;
 
-	@NotNull
-	@ManyToOne
-	@JoinColumn(name = "type_id")
-	private SportType type;
-
 	private String description;
 
-	@OneToMany(mappedBy = "category")
 	@JsonIgnore
-	private Set<Sport> sports;
-
-	public SportCategory() {
-	}
+	@OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
+	private Set<SportCategory> sportCategories;
 
 	public Integer getId() {
 		return id;
@@ -54,14 +46,6 @@ public class SportCategory {
 		this.name = name;
 	}
 
-	public SportType getType() {
-		return type;
-	}
-
-	public void setType(SportType type) {
-		this.type = type;
-	}
-
 	public String getDescription() {
 		return description;
 	}
@@ -70,12 +54,11 @@ public class SportCategory {
 		this.description = description;
 	}
 
-	public Set<Sport> getSports() {
-		return sports;
+	public Set<SportCategory> getSportCategories() {
+		return sportCategories;
 	}
 
-	public void setSports(Set<Sport> sports) {
-		this.sports = sports;
+	public void setSportCategories(Set<SportCategory> sportCategories) {
+		this.sportCategories = sportCategories;
 	}
-
 }

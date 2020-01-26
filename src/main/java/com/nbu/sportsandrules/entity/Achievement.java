@@ -1,64 +1,94 @@
 package com.nbu.sportsandrules.entity;
 
-import javax.persistence.*;
 import java.time.OffsetDateTime;
-import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nbu.sportsandrules.controller.body.AchievementBody;
 
 @Entity
 public class Achievement {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private Integer id;
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
+	private Integer id;
 
-    private String name;
+	private String name;
 
-    private Double score;
+	private String description;
 
-    private OffsetDateTime date;
+	private Double score;
 
-    @ManyToMany(mappedBy = "achievements")
-    private List<Sport> sports;
+	private OffsetDateTime date;
 
-    public Achievement() {
-    }
+	@ManyToOne
+	@JoinColumn(name = "sport_id")
+	@JsonIgnore
+	private Sport sport;
 
-    public Integer getId() {
-        return id;
-    }
+	public Achievement() {
+	}
 
-    public void setId(Integer id) {
-        this.id = id;
-    }
+	public Integer getId() {
+		return id;
+	}
 
-    public String getName() {
-        return name;
-    }
+	public void setId(Integer id) {
+		this.id = id;
+	}
 
-    public void setName(String name) {
-        this.name = name;
-    }
+	public String getName() {
+		return name;
+	}
 
-    public Double getScore() {
-        return score;
-    }
+	public void setName(String name) {
+		this.name = name;
+	}
 
-    public void setScore(Double score) {
-        this.score = score;
-    }
+	public String getDescription() {
+		return description;
+	}
 
-    public OffsetDateTime getDate() {
-        return date;
-    }
+	public void setDescription(String description) {
+		this.description = description;
+	}
 
-    public void setDate(OffsetDateTime date) {
-        this.date = date;
-    }
+	public Double getScore() {
+		return score;
+	}
 
-    public List<Sport> getSports() {
-        return sports;
-    }
+	public void setScore(Double score) {
+		this.score = score;
+	}
 
-    public void setSports(List<Sport> sports) {
-        this.sports = sports;
-    }
+	public OffsetDateTime getDate() {
+		return date;
+	}
+
+	public void setDate(OffsetDateTime date) {
+		this.date = date;
+	}
+
+	public Sport getSport() {
+		return sport;
+	}
+
+	public void setSport(Sport sport) {
+		this.sport = sport;
+	}
+
+	public AchievementBody initAchievementBody() {
+		AchievementBody body = new AchievementBody();
+		body.setId(id);
+		body.setName(name);
+		body.setDate(date);
+		body.setScore(score);
+		return body;
+	}
+
 }
