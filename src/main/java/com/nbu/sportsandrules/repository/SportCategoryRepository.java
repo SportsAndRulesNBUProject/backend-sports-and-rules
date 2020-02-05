@@ -15,4 +15,6 @@ public interface SportCategoryRepository extends CrudRepository<SportCategory, I
 
 	Optional<SportCategory> findById(Integer id);
 
+	List<SportCategory> findByTypeId(Integer id);
+
 }

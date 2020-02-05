@@ -37,6 +37,10 @@ public class League {
 	@OneToMany(mappedBy = "league")
 	private List<Team> teams;
 
+	@JsonIgnore
+	@OneToMany(mappedBy = "league")
+	private List<Athlete> athletes;
+
 	@OneToMany(mappedBy = "league")
 	@JsonIgnore
 	private Set<Comment> comments;
@@ -112,6 +116,14 @@ public class League {
 		body.setName(name);
 		body.setSportId(sport.getId());
 		return body;
+	}
+
+	public List<Athlete> getAthletes() {
+		return athletes;
+	}
+
+	public void setAthletes(List<Athlete> athletes) {
+		this.athletes = athletes;
 	}
 
 }

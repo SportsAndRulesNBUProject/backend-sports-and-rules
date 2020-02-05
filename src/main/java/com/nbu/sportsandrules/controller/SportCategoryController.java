@@ -68,14 +68,14 @@ public class SportCategoryController {
 	 */
 	@PostMapping()
 	public ResponseEntity<Void> addSportCategory(@RequestBody SportCategoryBody sportCategoryBody) {
-		SportCategory newCategory = sportCategoryBody.initSportCategory();
-		SportType newSportType;
+		SportCategory newCategory;
 		try {
-			newSportType = sportTypeService.getSportTypeByid(sportCategoryBody.getTypeId());
+			newCategory = sportCategoryBody.initSportCategory();
+			SportType newSportType = sportTypeService.getSportTypeByid(sportCategoryBody.getTypeId());
+			newCategory.setType(newSportType);
 		} catch (ConstraintViolationException e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
-		newCategory.setType(newSportType);
 
 		boolean sportCategoryExists = sportCategoryService.addSportCategory(newCategory);
 		if (sportCategoryExists) {

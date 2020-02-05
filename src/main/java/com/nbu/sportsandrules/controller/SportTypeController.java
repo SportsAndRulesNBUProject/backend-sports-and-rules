@@ -13,7 +13,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.nbu.sportsandrules.entity.SportCategory;
 import com.nbu.sportsandrules.entity.SportType;
+import com.nbu.sportsandrules.service.SportCategoryService;
 import com.nbu.sportsandrules.service.SportTypeService;
 
 @Controller
@@ -21,6 +23,9 @@ import com.nbu.sportsandrules.service.SportTypeService;
 public class SportTypeController {
 	@Autowired
 	private SportTypeService sportTypeService;
+	
+	@Autowired
+	private SportCategoryService sportCategoryService;
 
 	@GetMapping()
 	public ResponseEntity<List<SportType>> getAllSportTypes() {
@@ -34,6 +39,12 @@ public class SportTypeController {
 			return new ResponseEntity<SportType>(HttpStatus.NOT_FOUND);
 		}
 		return new ResponseEntity<SportType>(sportType, HttpStatus.OK);
+	}
+
+	@GetMapping("{id}/sport-categories")
+	public ResponseEntity<List<SportCategory>> getAllSportsByCategoryId(@PathVariable("id") Integer id) {
+		List<SportCategory> sportCategories = sportCategoryService.getSportCategoriesByTypeId(id);
+		return new ResponseEntity<List<SportCategory>>(sportCategories, HttpStatus.OK);
 	}
 
 	/**

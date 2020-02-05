@@ -65,7 +65,7 @@ public class SportService {
 		}
 	}
 
-	public Achievement getAchivementByIdAndSportId(Integer id,Integer sportId) {
+	public Achievement getAchivementByIdAndSportId(Integer id, Integer sportId) {
 		try {
 			Achievement achievement = achievementRepository.findByIdAndSportId(id, sportId);
 			return achievement;
@@ -92,4 +92,5 @@ public class SportService {
 	public void deleteSportById(Integer id) {
 		sportRepository.deleteById(id);
 	}
+
 }

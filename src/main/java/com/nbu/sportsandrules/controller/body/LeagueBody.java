@@ -10,13 +10,13 @@ public class LeagueBody {
 	private Integer sportId;
 	private String name;
 	private String country;
-	private List<TeamBody> teams;
+	//private List<TeamBody> teams;
 
 	public League initLeague() {
 		League league = new League();
 		league.setName(name);
 		league.setCountry(country);
-		teams = new ArrayList<>();
+		//teams = new ArrayList<>();
 		return league;
 	}
 
@@ -36,14 +36,11 @@ public class LeagueBody {
 		this.sportId = sportId;
 	}
 
-	public List<TeamBody> getTeams() {
-		return teams;
-	}
-
-	public void setTeams(List<TeamBody> teams) {
-		this.teams = teams;
-	}
-
+	/*
+	 * public List<TeamBody> getTeams() { return teams; }
+	 * 
+	 * public void setTeams(List<TeamBody> teams) { this.teams = teams; }
+	 */
 	public String getName() {
 		return name;
 	}

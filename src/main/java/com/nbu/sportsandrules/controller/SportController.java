@@ -22,16 +22,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.nbu.sportsandrules.controller.body.AchievementBody;
 import com.nbu.sportsandrules.controller.body.LeagueBody;
 import com.nbu.sportsandrules.controller.body.SportBody;
-import com.nbu.sportsandrules.controller.body.TeamBody;
 import com.nbu.sportsandrules.entity.Achievement;
 import com.nbu.sportsandrules.entity.League;
 import com.nbu.sportsandrules.entity.Sport;
 import com.nbu.sportsandrules.entity.SportCategory;
-import com.nbu.sportsandrules.entity.Team;
 import com.nbu.sportsandrules.service.LeagueService;
 import com.nbu.sportsandrules.service.SportCategoryService;
 import com.nbu.sportsandrules.service.SportService;
-import com.nbu.sportsandrules.service.TeamService;
 
 @Controller
 @RequestMapping(path = "api/sports")
@@ -44,9 +41,6 @@ public class SportController {
 
 	@Autowired
 	private LeagueService leagueService;
-
-	@Autowired
-	private TeamService teamService;
 
 	@GetMapping()
 	public ResponseEntity<List<SportBody>> getAllSports() {
@@ -77,15 +71,15 @@ public class SportController {
 
 		for (League league : leagues) {
 			LeagueBody leagueBody = league.initLeagueBody();
-			List<TeamBody> teamBodies = new ArrayList<>();
-
-			List<Team> teams = teamService.getTeamsByLeagueId(league.getId());
-			for (Team team : teams) {
-				team.setLeague(league);
-				teamBodies.add(team.initTeamBody());
-			}
-
-			leagueBody.setTeams(teamBodies);
+			/*
+			 * List<TeamBody> teamBodies = new ArrayList<>();
+			 * 
+			 * List<Team> teams = teamService.getTeamsByLeagueId(league.getId()); for (Team
+			 * team : teams) { team.setLeague(league); teamBodies.add(team.initTeamBody());
+			 * }
+			 * 
+			 * leagueBody.setTeams(teamBodies);
+			 */
 			leagueBodies.add(leagueBody);
 		}
 

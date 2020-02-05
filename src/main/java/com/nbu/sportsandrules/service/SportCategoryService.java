@@ -46,4 +46,9 @@ public class SportCategoryService {
 	public void deleteSportCategory(Integer id) {
 		sportCategoryRepository.deleteById(id);
 	}
+
+	public List<SportCategory> getSportCategoriesByTypeId(Integer id) {
+		List<SportCategory> sportCategories = sportCategoryRepository.findByTypeId(id);
+		return sportCategories;
+	}
 }

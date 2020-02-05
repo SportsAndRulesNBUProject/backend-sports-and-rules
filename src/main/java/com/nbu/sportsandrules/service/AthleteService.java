@@ -48,4 +48,8 @@ public class AthleteService {
 		athleteRepository.save(athlete);
 	}
 
+	public List<Athlete> getAllAthletesByLeagueId(Integer id) {
+		return athleteRepository.findByLeagueId(id);
+	}
+
 }

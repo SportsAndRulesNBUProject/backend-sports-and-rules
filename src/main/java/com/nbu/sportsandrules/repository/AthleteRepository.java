@@ -12,4 +12,6 @@ public interface AthleteRepository extends CrudRepository<Athlete, Integer> {
 
 	List<Athlete> findByTeamId(Integer id);
 
+	List<Athlete> findByLeagueId(Integer id);
+
 }

@@ -35,7 +35,7 @@ public class Athlete {
 	private Team team;
 
 	@JoinColumn(name = "league_id")
-	@ManyToOne(cascade = CascadeType.ALL)
+	@ManyToOne // (cascade = CascadeType.ALL)
 	@JsonIgnore
 	private League league;
 
@@ -54,8 +54,10 @@ public class Athlete {
 		athleteBody.setId(id);
 		athleteBody.setName(name);
 		athleteBody.setAge(age);
-		athleteBody.setTeamId(team.getId());
-		athleteBody.setLeagueId(team.getLeague().getId());
+		if (team != null) {
+			athleteBody.setTeamId(team.getId());
+		}
+		athleteBody.setLeagueId(league.getId());
 		return athleteBody;
 	}
 

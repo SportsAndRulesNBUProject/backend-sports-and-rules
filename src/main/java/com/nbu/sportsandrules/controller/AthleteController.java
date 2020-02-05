@@ -1,5 +1,8 @@
 package com.nbu.sportsandrules.controller;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import javax.validation.ConstraintViolationException;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +38,18 @@ public class AthleteController {
 	@Autowired
 	private LeagueService leagueService;
 
+	@GetMapping()
+	public ResponseEntity<List<AthleteBody>> getAthletes() {
+		List<Athlete> athletes = athleteService.getAllAthletes();
+		List<AthleteBody> athleteBodies = new ArrayList<>();
+		for (Athlete athlete : athletes) {
+			athleteBodies.add(
+					athlete.initAthleteBody());
+		}
+
+		return new ResponseEntity<List<AthleteBody>>(athleteBodies, HttpStatus.OK);
+	}
+
 	@GetMapping("/{id}")
 	public ResponseEntity<AthleteBody> getAthleteById(@PathVariable("id") Integer id) {
 		Athlete athlete = athleteService.getAthleteByid(id);
@@ -53,8 +68,8 @@ public class AthleteController {
 	public ResponseEntity<Void> addAthlete(@RequestBody AthleteBody athleteBody) {
 		Athlete newAthlete;
 		try {
-		 newAthlete = athleteBody.initAthlete();}
-		catch (ConstraintViolationException e) {
+			newAthlete = athleteBody.initAthlete();
+		} catch (ConstraintViolationException e) {
 			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
 		}
 
@@ -62,12 +77,20 @@ public class AthleteController {
 		if (teamId != null) {
 			Team team = teamService.getTeamById(teamId);
 			newAthlete.setTeam(team);
+			newAthlete.setLeague(team.getLeague());
 		}
 
 		Integer leagueId = athleteBody.getLeagueId();
 		if (leagueId != null) {
-			League league = leagueService.getLeagueById(leagueId);
-			newAthlete.setLeague(league);
+			if (teamId != null) {
+				/*
+				 * Cannot specify both - case 1: team sport; case 2: solo sport
+				 */
+				return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			} else {
+				League league = leagueService.getLeagueById(leagueId);
+				newAthlete.setLeague(league);
+			}
 		}
 
 		athleteService.addAthlete(newAthlete);
@@ -91,14 +114,24 @@ public class AthleteController {
 			athlete.setAge(age);
 		}
 
-		Integer leagueId = athleteBody.getLeagueId();
-		if (leagueId != null) {
-			athlete.setLeague(leagueService.getLeagueById(leagueId));
-		}
-
 		Integer teamId = athleteBody.getTeamId();
 		if (teamId != null) {
-			athlete.setTeam(teamService.getTeamById(teamId));
+			Team team = teamService.getTeamById(teamId);
+			athlete.setTeam(team);
+			athlete.setLeague(team.getLeague());
+		}
+
+		Integer leagueId = athleteBody.getLeagueId();
+		if (leagueId != null) {
+			if (teamId != null) {
+				/*
+				 * Cannot specify both - case 1: team sport; case 2: solo sport
+				 */
+				return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+			} else {
+				League league = leagueService.getLeagueById(leagueId);
+				athlete.setLeague(league);
+			}
 		}
 
 		athleteService.updateAthlete(athlete);

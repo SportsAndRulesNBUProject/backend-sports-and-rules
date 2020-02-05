@@ -17,10 +17,13 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.nbu.sportsandrules.controller.body.AthleteBody;
 import com.nbu.sportsandrules.controller.body.LeagueBody;
 import com.nbu.sportsandrules.controller.body.TeamBody;
+import com.nbu.sportsandrules.entity.Athlete;
 import com.nbu.sportsandrules.entity.League;
 import com.nbu.sportsandrules.entity.Team;
+import com.nbu.sportsandrules.service.AthleteService;
 import com.nbu.sportsandrules.service.LeagueService;
 import com.nbu.sportsandrules.service.SportService;
 import com.nbu.sportsandrules.service.TeamService;
@@ -36,13 +39,27 @@ public class LeagueController {
 
 	@Autowired
 	private TeamService teamService;
+	
+	@Autowired
+	private AthleteService athleteService;
 
 	@GetMapping()
 	public ResponseEntity<List<LeagueBody>> getAllLeagues() {
 		List<League> leagues = leagueService.getAllLEagues();
 		List<LeagueBody> leagueBodies = new ArrayList<>();
+
 		for (League league : leagues) {
-			leagueBodies.add(league.initLeagueBody());
+			LeagueBody leagueBody = league.initLeagueBody();
+			/*
+			 * List<TeamBody> teamBodies = new ArrayList<>();
+			 * 
+			 * List<Team> teams = teamService.getTeamsByLeagueId(league.getId()); for (Team
+			 * team : teams) { team.setLeague(league); teamBodies.add(team.initTeamBody());
+			 * }
+			 * 
+			 * leagueBody.setTeams(teamBodies);
+			 */
+			leagueBodies.add(leagueBody);
 		}
 		return new ResponseEntity<List<LeagueBody>>(leagueBodies, HttpStatus.OK);
 	}
@@ -68,6 +85,18 @@ public class LeagueController {
 			teamBodies.add(team.initTeamBody());
 		}
 		return new ResponseEntity<List<Team>>(teams, HttpStatus.OK);
+	}
+	
+	@GetMapping("/{id}/athletes")
+	public ResponseEntity<List<AthleteBody>> getAllAthletesByTeamId(@PathVariable("id") Integer id) {
+		List<AthleteBody> athleteBodies = new ArrayList<>();
+		List<Athlete> athletes = athleteService.getAllAthletesByLeagueId(id);
+
+		for (Athlete athlete : athletes) {
+			athleteBodies.add(athlete.initAthleteBody());
+		}
+
+		return new ResponseEntity<List<AthleteBody>>(athleteBodies, HttpStatus.OK);
 	}
 
 	/**
