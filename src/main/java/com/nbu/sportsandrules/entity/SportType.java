@@ -30,6 +30,9 @@ public class SportType {
     @OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
     private Set<SportCategory> sportCategories;
 
+    public SportType() {
+    }
+
     public Integer getId() {
         return id;
     }
