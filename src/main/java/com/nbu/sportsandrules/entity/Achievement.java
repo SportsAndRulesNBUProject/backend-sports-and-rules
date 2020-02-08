@@ -14,81 +14,81 @@ import com.nbu.sportsandrules.controller.body.AchievementBody;
 
 @Entity
 public class Achievement {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-	private String name;
+    private String name;
 
-	private String description;
+    private String description;
 
-	private Double score;
+    private Double score;
 
-	private OffsetDateTime date;
+    private OffsetDateTime date;
 
-	@ManyToOne
-	@JoinColumn(name = "sport_id")
-	@JsonIgnore
-	private Sport sport;
+    @ManyToOne
+    @JoinColumn(name = "sport_id")
+    @JsonIgnore
+    private Sport sport;
 
-	public Achievement() {
-	}
+    public Achievement() {
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Double getScore() {
-		return score;
-	}
+    public Double getScore() {
+        return score;
+    }
 
-	public void setScore(Double score) {
-		this.score = score;
-	}
+    public void setScore(Double score) {
+        this.score = score;
+    }
 
-	public OffsetDateTime getDate() {
-		return date;
-	}
+    public OffsetDateTime getDate() {
+        return date;
+    }
 
-	public void setDate(OffsetDateTime date) {
-		this.date = date;
-	}
+    public void setDate(OffsetDateTime date) {
+        this.date = date;
+    }
 
-	public Sport getSport() {
-		return sport;
-	}
+    public Sport getSport() {
+        return sport;
+    }
 
-	public void setSport(Sport sport) {
-		this.sport = sport;
-	}
+    public void setSport(Sport sport) {
+        this.sport = sport;
+    }
 
-	public AchievementBody initAchievementBody() {
-		AchievementBody body = new AchievementBody();
-		body.setId(id);
-		body.setName(name);
-		body.setDate(date);
-		body.setScore(score);
-		return body;
-	}
+    public AchievementBody initAchievementBody() {
+        AchievementBody body = new AchievementBody();
+        body.setId(id);
+        body.setName(name);
+        body.setDate(date);
+        body.setScore(score);
+        return body;
+    }
 
 }

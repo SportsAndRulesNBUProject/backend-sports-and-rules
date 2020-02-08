@@ -31,129 +31,129 @@ import com.nbu.sportsandrules.service.TeamService;
 @Controller
 @RequestMapping("api/leagues")
 public class LeagueController {
-	@Autowired
-	private SportService sportService;
+    @Autowired
+    private SportService sportService;
 
-	@Autowired
-	private LeagueService leagueService;
+    @Autowired
+    private LeagueService leagueService;
 
-	@Autowired
-	private TeamService teamService;
-	
-	@Autowired
-	private AthleteService athleteService;
+    @Autowired
+    private TeamService teamService;
 
-	@GetMapping()
-	public ResponseEntity<List<LeagueBody>> getAllLeagues() {
-		List<League> leagues = leagueService.getAllLEagues();
-		List<LeagueBody> leagueBodies = new ArrayList<>();
+    @Autowired
+    private AthleteService athleteService;
 
-		for (League league : leagues) {
-			LeagueBody leagueBody = league.initLeagueBody();
-			/*
-			 * List<TeamBody> teamBodies = new ArrayList<>();
-			 * 
-			 * List<Team> teams = teamService.getTeamsByLeagueId(league.getId()); for (Team
-			 * team : teams) { team.setLeague(league); teamBodies.add(team.initTeamBody());
-			 * }
-			 * 
-			 * leagueBody.setTeams(teamBodies);
-			 */
-			leagueBodies.add(leagueBody);
-		}
-		return new ResponseEntity<List<LeagueBody>>(leagueBodies, HttpStatus.OK);
-	}
+    @GetMapping()
+    public ResponseEntity<List<LeagueBody>> getAllLeagues() {
+        List<League> leagues = leagueService.getAllLEagues();
+        List<LeagueBody> leagueBodies = new ArrayList<>();
 
-	@GetMapping("/{id}")
-	public ResponseEntity<LeagueBody> getLeagueById(@PathVariable("id") Integer id) {
-		League league = leagueService.getLeagueById(id);
-		if (league == null) {
-			return new ResponseEntity<LeagueBody>(HttpStatus.NOT_FOUND);
-		}
-		LeagueBody leagueBody = league.initLeagueBody();
-		return new ResponseEntity<LeagueBody>(leagueBody, HttpStatus.OK);
-	}
+        for (League league : leagues) {
+            LeagueBody leagueBody = league.initLeagueBody();
+            /*
+             * List<TeamBody> teamBodies = new ArrayList<>();
+             *
+             * List<Team> teams = teamService.getTeamsByLeagueId(league.getId()); for (Team
+             * team : teams) { team.setLeague(league); teamBodies.add(team.initTeamBody());
+             * }
+             *
+             * leagueBody.setTeams(teamBodies);
+             */
+            leagueBodies.add(leagueBody);
+        }
+        return new ResponseEntity<List<LeagueBody>>(leagueBodies, HttpStatus.OK);
+    }
 
-	@GetMapping("/{id}/teams")
-	public ResponseEntity<List<Team>> getTeamsByLeagueById(@PathVariable("id") Integer id) {
-		List<TeamBody> teamBodies = new ArrayList<>();
-		League league = leagueService.getLeagueById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<LeagueBody> getLeagueById(@PathVariable("id") Integer id) {
+        League league = leagueService.getLeagueById(id);
+        if (league == null) {
+            return new ResponseEntity<LeagueBody>(HttpStatus.NOT_FOUND);
+        }
+        LeagueBody leagueBody = league.initLeagueBody();
+        return new ResponseEntity<LeagueBody>(leagueBody, HttpStatus.OK);
+    }
 
-		List<Team> teams = teamService.getTeamsByLeagueId(league.getId());
-		for (Team team : teams) {
-			team.setLeague(league);
-			teamBodies.add(team.initTeamBody());
-		}
-		return new ResponseEntity<List<Team>>(teams, HttpStatus.OK);
-	}
-	
-	@GetMapping("/{id}/athletes")
-	public ResponseEntity<List<AthleteBody>> getAllAthletesByTeamId(@PathVariable("id") Integer id) {
-		List<AthleteBody> athleteBodies = new ArrayList<>();
-		List<Athlete> athletes = athleteService.getAllAthletesByLeagueId(id);
+    @GetMapping("/{id}/teams")
+    public ResponseEntity<List<Team>> getTeamsByLeagueById(@PathVariable("id") Integer id) {
+        List<TeamBody> teamBodies = new ArrayList<>();
+        League league = leagueService.getLeagueById(id);
 
-		for (Athlete athlete : athletes) {
-			athleteBodies.add(athlete.initAthleteBody());
-		}
+        List<Team> teams = teamService.getTeamsByLeagueId(league.getId());
+        for (Team team : teams) {
+            team.setLeague(league);
+            teamBodies.add(team.initTeamBody());
+        }
+        return new ResponseEntity<List<Team>>(teams, HttpStatus.OK);
+    }
 
-		return new ResponseEntity<List<AthleteBody>>(athleteBodies, HttpStatus.OK);
-	}
+    @GetMapping("/{id}/athletes")
+    public ResponseEntity<List<AthleteBody>> getAllAthletesByTeamId(@PathVariable("id") Integer id) {
+        List<AthleteBody> athleteBodies = new ArrayList<>();
+        List<Athlete> athletes = athleteService.getAllAthletesByLeagueId(id);
 
-	/**
-	 * add
-	 */
-	@PostMapping()
-	public ResponseEntity<Void> addLeague(@RequestBody LeagueBody leagueBody) {
-		League newLeague;
+        for (Athlete athlete : athletes) {
+            athleteBodies.add(athlete.initAthleteBody());
+        }
 
-		try {
-			newLeague = leagueBody.initLeague();
-		} catch (ConstraintViolationException e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		}
-		newLeague.setSport(sportService.getSportById(leagueBody.getSportId()));
+        return new ResponseEntity<List<AthleteBody>>(athleteBodies, HttpStatus.OK);
+    }
 
-		boolean leagueExists = leagueService.addLeague(newLeague);
-		if (leagueExists) {
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-		}
-		return new ResponseEntity<Void>(HttpStatus.CREATED);
-	}
+    /**
+     * add
+     */
+    @PostMapping()
+    public ResponseEntity<Void> addLeague(@RequestBody LeagueBody leagueBody) {
+        League newLeague;
 
-	/**
-	 * PUT
-	 */
-	@PutMapping("/{id}")
-	public ResponseEntity<Void> updateLeagueById(@PathVariable("id") Integer id, @RequestBody LeagueBody leagueBody) {
-		League league = leagueService.getLeagueById(id);
+        try {
+            newLeague = leagueBody.initLeague();
+        } catch (ConstraintViolationException e) {
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
+        newLeague.setSport(sportService.getSportById(leagueBody.getSportId()));
 
-		String name = leagueBody.getName();
-		if (name != null) {
-			league.setName(name);
-		}
+        boolean leagueExists = leagueService.addLeague(newLeague);
+        if (leagueExists) {
+            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
 
-		String country = leagueBody.getCountry();
-		if (country != null) {
-			league.setCountry(country);
-		}
+    /**
+     * PUT
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateLeagueById(@PathVariable("id") Integer id, @RequestBody LeagueBody leagueBody) {
+        League league = leagueService.getLeagueById(id);
 
-		Integer sportId = leagueBody.getSportId();
-		if (sportId != null) {
-			league.setSport(sportService.getSportById(sportId));
-		}
+        String name = leagueBody.getName();
+        if (name != null) {
+            league.setName(name);
+        }
 
-		leagueService.updateLeague(league);
+        String country = leagueBody.getCountry();
+        if (country != null) {
+            league.setCountry(country);
+        }
 
-		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
-	}
+        Integer sportId = leagueBody.getSportId();
+        if (sportId != null) {
+            league.setSport(sportService.getSportById(sportId));
+        }
 
-	/**
-	 * Delete
-	 */
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteLeague(@PathVariable("id") Integer id) {
-		leagueService.deleteLeague(id);
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-	}
+        leagueService.updateLeague(league);
+
+        return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+    }
+
+    /**
+     * Delete
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteLeague(@PathVariable("id") Integer id) {
+        leagueService.deleteLeague(id);
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
 
 }

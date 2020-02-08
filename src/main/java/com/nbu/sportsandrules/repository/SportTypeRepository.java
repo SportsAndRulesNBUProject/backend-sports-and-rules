@@ -8,8 +8,8 @@ import org.springframework.data.repository.CrudRepository;
 import com.nbu.sportsandrules.entity.SportType;
 
 public interface SportTypeRepository extends CrudRepository<SportType, Integer> {
-	List<SportType> findByName(String name);
+    List<SportType> findByName(String name);
 
-	Optional<SportType> findById(Integer id);
+    Optional<SportType> findById(Integer id);
 
 }

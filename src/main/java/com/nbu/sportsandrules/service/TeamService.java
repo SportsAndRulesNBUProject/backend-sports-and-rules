@@ -12,38 +12,38 @@ import com.nbu.sportsandrules.repository.TeamRepository;
 
 @Service
 public class TeamService {
-	@Autowired
-	private TeamRepository teamRepository;
+    @Autowired
+    private TeamRepository teamRepository;
 
-	public Team getTeamById(Integer id) {
-		try {
-			Team team = teamRepository.findById(id).get();
-			return team;
-		} catch (NoSuchElementException nse) {
-			return null;
-		}
-	}
+    public Team getTeamById(Integer id) {
+        try {
+            Team team = teamRepository.findById(id).get();
+            return team;
+        } catch (NoSuchElementException nse) {
+            return null;
+        }
+    }
 
-	public List<Team> getAllTeams() {
-		List<Team> teams = new ArrayList<>();
-		teamRepository.findAll().forEach(team -> teams.add(team));
-		return teams;
-	}
+    public List<Team> getAllTeams() {
+        List<Team> teams = new ArrayList<>();
+        teamRepository.findAll().forEach(team -> teams.add(team));
+        return teams;
+    }
 
-	public void deleteTeam(Integer id) {
-		teamRepository.deleteById(id);
-	}
+    public void deleteTeam(Integer id) {
+        teamRepository.deleteById(id);
+    }
 
-	public void addTeam(Team team) {
-		teamRepository.save(team);
-	}
+    public void addTeam(Team team) {
+        teamRepository.save(team);
+    }
 
-	public List<Team> getTeamsByLeagueId(Integer id) {
-		return teamRepository.findByLeagueId(id);
-	}
+    public List<Team> getTeamsByLeagueId(Integer id) {
+        return teamRepository.findByLeagueId(id);
+    }
 
-	public void updateTeam(Team team) {
-		teamRepository.save(team);
-	}
+    public void updateTeam(Team team) {
+        teamRepository.save(team);
+    }
 
 }

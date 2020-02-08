@@ -9,13 +9,13 @@ import org.springframework.data.repository.CrudRepository;
 import com.nbu.sportsandrules.entity.Event;
 
 public interface EventRepository extends CrudRepository<Event, Integer> {
-	Optional<Event> findById(Integer id);
+    Optional<Event> findById(Integer id);
 
-	List<Event> findByName(String name);
+    List<Event> findByName(String name);
 
-	List<Event> findByHostTeamId(Integer Id);
+    List<Event> findByHostTeamId(Integer Id);
 
-	List<Event> findByGuestTeamId(Integer Id);
+    List<Event> findByGuestTeamId(Integer Id);
 
-	List<Event> findByDate(OffsetDateTime date);
+    List<Event> findByDate(OffsetDateTime date);
 }

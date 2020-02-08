@@ -15,97 +15,97 @@ import com.nbu.sportsandrules.controller.body.TeamBody;
 
 @Entity
 public class Team {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-	private String name;
-	
-	@JsonIgnore
-	@JoinColumn(name = "league_id")
-	@ManyToOne
-	private League league;
+    private String name;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "team")	
-	private Set<Athlete> athletes;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "hostTeam")
-	private Set<Event> hostEvents;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "guestTeam")
-	private Set<Event> guestEvents;
-	
-	@JsonIgnore
-	@OneToMany(mappedBy = "team")
-	private Set<Comment> comments;
+    @JsonIgnore
+    @JoinColumn(name = "league_id")
+    @ManyToOne
+    private League league;
 
-	public Team() {
-	}
+    @JsonIgnore
+    @OneToMany(mappedBy = "team")
+    private Set<Athlete> athletes;
 
-	public Integer getId() {
-		return id;
-	}
+    @JsonIgnore
+    @OneToMany(mappedBy = "hostTeam")
+    private Set<Event> hostEvents;
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    @JsonIgnore
+    @OneToMany(mappedBy = "guestTeam")
+    private Set<Event> guestEvents;
 
-	public String getName() {
-		return name;
-	}
+    @JsonIgnore
+    @OneToMany(mappedBy = "team")
+    private Set<Comment> comments;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public Team() {
+    }
 
-	public League getLeague() {
-		return league;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setLeague(League league) {
-		this.league = league;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public Set<Athlete> getAthletes() {
-		return athletes;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setAthletes(Set<Athlete> athletes) {
-		this.athletes = athletes;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Set<Event> getHostEvents() {
-		return hostEvents;
-	}
+    public League getLeague() {
+        return league;
+    }
 
-	public void setHostEvents(Set<Event> hostEvents) {
-		this.hostEvents = hostEvents;
-	}
+    public void setLeague(League league) {
+        this.league = league;
+    }
 
-	public Set<Event> getGuestEvents() {
-		return guestEvents;
-	}
+    public Set<Athlete> getAthletes() {
+        return athletes;
+    }
 
-	public void setGuestEvents(Set<Event> guestEvents) {
-		this.guestEvents = guestEvents;
-	}
+    public void setAthletes(Set<Athlete> athletes) {
+        this.athletes = athletes;
+    }
 
-	public Set<Comment> getComments() {
-		return comments;
-	}
+    public Set<Event> getHostEvents() {
+        return hostEvents;
+    }
 
-	public void setComments(Set<Comment> comments) {
-		this.comments = comments;
-	}
+    public void setHostEvents(Set<Event> hostEvents) {
+        this.hostEvents = hostEvents;
+    }
 
-	public TeamBody initTeamBody() {
-		TeamBody teamBody = new TeamBody();
-		teamBody.setId(id);
-		teamBody.setLeagueId(league.getId());
-		teamBody.setName(name);
-		return teamBody;
-	}
+    public Set<Event> getGuestEvents() {
+        return guestEvents;
+    }
+
+    public void setGuestEvents(Set<Event> guestEvents) {
+        this.guestEvents = guestEvents;
+    }
+
+    public Set<Comment> getComments() {
+        return comments;
+    }
+
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
+
+    public TeamBody initTeamBody() {
+        TeamBody teamBody = new TeamBody();
+        teamBody.setId(id);
+        teamBody.setLeagueId(league.getId());
+        teamBody.setName(name);
+        return teamBody;
+    }
 }

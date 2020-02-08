@@ -29,95 +29,95 @@ import com.nbu.sportsandrules.service.SportTypeService;
 @Controller
 @RequestMapping(path = "api/sport-categories")
 public class SportCategoryController {
-	@Autowired
-	private SportCategoryService sportCategoryService;
+    @Autowired
+    private SportCategoryService sportCategoryService;
 
-	@Autowired
-	private SportTypeService sportTypeService;
+    @Autowired
+    private SportTypeService sportTypeService;
 
-	@Autowired
-	private SportService sportService;
+    @Autowired
+    private SportService sportService;
 
-	@GetMapping()
-	public ResponseEntity<Iterable<SportCategory>> getAllSportSportCategories() {
-		return new ResponseEntity<>(sportCategoryService.getAllSportSportCategories(), HttpStatus.OK);
-	}
+    @GetMapping()
+    public ResponseEntity<Iterable<SportCategory>> getAllSportSportCategories() {
+        return new ResponseEntity<>(sportCategoryService.getAllSportSportCategories(), HttpStatus.OK);
+    }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<SportCategory> getSportCategoryById(@PathVariable("id") Integer id) {
-		SportCategory sportCategory = sportCategoryService.getSportCategoryByid(id);
-		if (sportCategory == null) {
-			return new ResponseEntity<SportCategory>(HttpStatus.NOT_FOUND);
-		}
-		return new ResponseEntity<SportCategory>(sportCategory, HttpStatus.OK);
-	}
+    @GetMapping("/{id}")
+    public ResponseEntity<SportCategory> getSportCategoryById(@PathVariable("id") Integer id) {
+        SportCategory sportCategory = sportCategoryService.getSportCategoryByid(id);
+        if (sportCategory == null) {
+            return new ResponseEntity<SportCategory>(HttpStatus.NOT_FOUND);
+        }
+        return new ResponseEntity<SportCategory>(sportCategory, HttpStatus.OK);
+    }
 
-	@GetMapping("/{id}/sports")
-	public ResponseEntity<List<SportBody>> getAllSportsByCategoryId(@PathVariable("id") Integer id) {
-		List<Sport> allSports = sportService.getAllSportsByCategoryId(id);
+    @GetMapping("/{id}/sports")
+    public ResponseEntity<List<SportBody>> getAllSportsByCategoryId(@PathVariable("id") Integer id) {
+        List<Sport> allSports = sportService.getAllSportsByCategoryId(id);
 
-		List<SportBody> allSportBodies = new ArrayList<>();
-		for (Sport sport : allSports) {
-			allSportBodies.add(sport.initSportBody());
-		}
-		return new ResponseEntity<>(allSportBodies, HttpStatus.OK);
-	}
+        List<SportBody> allSportBodies = new ArrayList<>();
+        for (Sport sport : allSports) {
+            allSportBodies.add(sport.initSportBody());
+        }
+        return new ResponseEntity<>(allSportBodies, HttpStatus.OK);
+    }
 
-	/**
-	 * add
-	 */
-	@PostMapping()
-	public ResponseEntity<Void> addSportCategory(@RequestBody SportCategoryBody sportCategoryBody) {
-		SportCategory newCategory;
-		try {
-			newCategory = sportCategoryBody.initSportCategory();
-			SportType newSportType = sportTypeService.getSportTypeByid(sportCategoryBody.getTypeId());
-			newCategory.setType(newSportType);
-		} catch (ConstraintViolationException e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		}
+    /**
+     * add
+     */
+    @PostMapping()
+    public ResponseEntity<Void> addSportCategory(@RequestBody SportCategoryBody sportCategoryBody) {
+        SportCategory newCategory;
+        try {
+            newCategory = sportCategoryBody.initSportCategory();
+            SportType newSportType = sportTypeService.getSportTypeByid(sportCategoryBody.getTypeId());
+            newCategory.setType(newSportType);
+        } catch (ConstraintViolationException e) {
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
 
-		boolean sportCategoryExists = sportCategoryService.addSportCategory(newCategory);
-		if (sportCategoryExists) {
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-		}
-		return new ResponseEntity<Void>(HttpStatus.CREATED);
-	}
+        boolean sportCategoryExists = sportCategoryService.addSportCategory(newCategory);
+        if (sportCategoryExists) {
+            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+        }
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
 
-	/**
-	 * Update
-	 */
-	@PutMapping("/{id}")
-	public ResponseEntity<Void> updateSportCategoryById(@PathVariable("id") Integer id,
-			@RequestBody SportCategoryBody sportCategoryBody) {
-		SportCategory category = sportCategoryService.getSportCategoryByid(id);
+    /**
+     * Update
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateSportCategoryById(@PathVariable("id") Integer id,
+                                                        @RequestBody SportCategoryBody sportCategoryBody) {
+        SportCategory category = sportCategoryService.getSportCategoryByid(id);
 
-		Integer typeId = sportCategoryBody.getTypeId();
-		if (typeId != null) {
-			SportType sportType = sportTypeService.getSportTypeByid(typeId);
-			category.setType(sportType);
-		}
+        Integer typeId = sportCategoryBody.getTypeId();
+        if (typeId != null) {
+            SportType sportType = sportTypeService.getSportTypeByid(typeId);
+            category.setType(sportType);
+        }
 
-		String description = sportCategoryBody.getDescription();
-		if (description != null) {
-			category.setDescription(description);
-		}
+        String description = sportCategoryBody.getDescription();
+        if (description != null) {
+            category.setDescription(description);
+        }
 
-		String name = sportCategoryBody.getName();
-		if (name != null) {
-			category.setName(name);
-		}
+        String name = sportCategoryBody.getName();
+        if (name != null) {
+            category.setName(name);
+        }
 
-		sportCategoryService.updateSportCategory(category);
-		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
-	}
+        sportCategoryService.updateSportCategory(category);
+        return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+    }
 
-	/**
-	 * Delete
-	 */
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteSportCategory(@PathVariable("id") Integer id) {
-		sportCategoryService.deleteSportCategory(id);
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-	}
+    /**
+     * Delete
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSportCategory(@PathVariable("id") Integer id) {
+        sportCategoryService.deleteSportCategory(id);
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
 }

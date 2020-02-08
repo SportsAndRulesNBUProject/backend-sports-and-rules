@@ -12,44 +12,44 @@ import com.nbu.sportsandrules.repository.AthleteRepository;
 
 @Service
 public class AthleteService {
-	@Autowired
-	private AthleteRepository athleteRepository;
+    @Autowired
+    private AthleteRepository athleteRepository;
 
-	public List<Athlete> getAllAthletes() {
-		List<Athlete> athletes = new ArrayList<>();
-		athleteRepository.findAll().forEach(a -> athletes.add(a));
-		return athletes;
-	}
+    public List<Athlete> getAllAthletes() {
+        List<Athlete> athletes = new ArrayList<>();
+        athleteRepository.findAll().forEach(a -> athletes.add(a));
+        return athletes;
+    }
 
-	public Athlete getAthleteByid(Integer id) {
-		try {
-			Athlete athlete = athleteRepository.findById(id).get();
-			return athlete;
-		} catch (NoSuchElementException nse) {
-			return null;
-		}
+    public Athlete getAthleteByid(Integer id) {
+        try {
+            Athlete athlete = athleteRepository.findById(id).get();
+            return athlete;
+        } catch (NoSuchElementException nse) {
+            return null;
+        }
 
-	}
+    }
 
-	public void deleteAthlete(Integer id) {
-		athleteRepository.deleteById(id);
-	}
+    public void deleteAthlete(Integer id) {
+        athleteRepository.deleteById(id);
+    }
 
-	public void addAthlete(Athlete athlete) {
-		athleteRepository.save(athlete);
-	}
+    public void addAthlete(Athlete athlete) {
+        athleteRepository.save(athlete);
+    }
 
-	public List<Athlete> getAllAthletesByTeamId(Integer id) {
-		return athleteRepository.findByTeamId(id);
+    public List<Athlete> getAllAthletesByTeamId(Integer id) {
+        return athleteRepository.findByTeamId(id);
 
-	}
+    }
 
-	public void updateAthlete(Athlete athlete) {
-		athleteRepository.save(athlete);
-	}
+    public void updateAthlete(Athlete athlete) {
+        athleteRepository.save(athlete);
+    }
 
-	public List<Athlete> getAllAthletesByLeagueId(Integer id) {
-		return athleteRepository.findByLeagueId(id);
-	}
+    public List<Athlete> getAllAthletesByLeagueId(Integer id) {
+        return athleteRepository.findByLeagueId(id);
+    }
 
 }

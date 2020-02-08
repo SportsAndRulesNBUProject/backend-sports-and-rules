@@ -9,12 +9,12 @@ import com.nbu.sportsandrules.entity.SportCategory;
 
 public interface SportCategoryRepository extends CrudRepository<SportCategory, Integer> {
 
-	List<SportCategory> findByTypeName(String name);
+    List<SportCategory> findByTypeName(String name);
 
-	List<SportCategory> findByName(String name);
+    List<SportCategory> findByName(String name);
 
-	Optional<SportCategory> findById(Integer id);
+    Optional<SportCategory> findById(Integer id);
 
-	List<SportCategory> findByTypeId(Integer id);
+    List<SportCategory> findByTypeId(Integer id);
 
 }

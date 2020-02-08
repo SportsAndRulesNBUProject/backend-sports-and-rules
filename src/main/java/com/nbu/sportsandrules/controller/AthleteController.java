@@ -29,121 +29,121 @@ import com.nbu.sportsandrules.service.TeamService;
 @RequestMapping("api/athletes")
 public class AthleteController {
 
-	@Autowired
-	private AthleteService athleteService;
+    @Autowired
+    private AthleteService athleteService;
 
-	@Autowired
-	private TeamService teamService;
+    @Autowired
+    private TeamService teamService;
 
-	@Autowired
-	private LeagueService leagueService;
+    @Autowired
+    private LeagueService leagueService;
 
-	@GetMapping()
-	public ResponseEntity<List<AthleteBody>> getAthletes() {
-		List<Athlete> athletes = athleteService.getAllAthletes();
-		List<AthleteBody> athleteBodies = new ArrayList<>();
-		for (Athlete athlete : athletes) {
-			athleteBodies.add(
-					athlete.initAthleteBody());
-		}
+    @GetMapping()
+    public ResponseEntity<List<AthleteBody>> getAthletes() {
+        List<Athlete> athletes = athleteService.getAllAthletes();
+        List<AthleteBody> athleteBodies = new ArrayList<>();
+        for (Athlete athlete : athletes) {
+            athleteBodies.add(
+                    athlete.initAthleteBody());
+        }
 
-		return new ResponseEntity<List<AthleteBody>>(athleteBodies, HttpStatus.OK);
-	}
+        return new ResponseEntity<List<AthleteBody>>(athleteBodies, HttpStatus.OK);
+    }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<AthleteBody> getAthleteById(@PathVariable("id") Integer id) {
-		Athlete athlete = athleteService.getAthleteByid(id);
-		if (athlete == null) {
-			return new ResponseEntity<AthleteBody>(HttpStatus.NOT_FOUND);
-		}
+    @GetMapping("/{id}")
+    public ResponseEntity<AthleteBody> getAthleteById(@PathVariable("id") Integer id) {
+        Athlete athlete = athleteService.getAthleteByid(id);
+        if (athlete == null) {
+            return new ResponseEntity<AthleteBody>(HttpStatus.NOT_FOUND);
+        }
 
-		AthleteBody athleteBody = athlete.initAthleteBody();
-		return new ResponseEntity<AthleteBody>(athleteBody, HttpStatus.OK);
-	}
+        AthleteBody athleteBody = athlete.initAthleteBody();
+        return new ResponseEntity<AthleteBody>(athleteBody, HttpStatus.OK);
+    }
 
-	/**
-	 * add
-	 */
-	@PostMapping()
-	public ResponseEntity<Void> addAthlete(@RequestBody AthleteBody athleteBody) {
-		Athlete newAthlete;
-		try {
-			newAthlete = athleteBody.initAthlete();
-		} catch (ConstraintViolationException e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		}
+    /**
+     * add
+     */
+    @PostMapping()
+    public ResponseEntity<Void> addAthlete(@RequestBody AthleteBody athleteBody) {
+        Athlete newAthlete;
+        try {
+            newAthlete = athleteBody.initAthlete();
+        } catch (ConstraintViolationException e) {
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
 
-		Integer teamId = athleteBody.getTeamId();
-		if (teamId != null) {
-			Team team = teamService.getTeamById(teamId);
-			newAthlete.setTeam(team);
-			newAthlete.setLeague(team.getLeague());
-		}
+        Integer teamId = athleteBody.getTeamId();
+        if (teamId != null) {
+            Team team = teamService.getTeamById(teamId);
+            newAthlete.setTeam(team);
+            newAthlete.setLeague(team.getLeague());
+        }
 
-		Integer leagueId = athleteBody.getLeagueId();
-		if (leagueId != null) {
-			if (teamId != null) {
-				/*
-				 * Cannot specify both - case 1: team sport; case 2: solo sport
-				 */
-				return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-			} else {
-				League league = leagueService.getLeagueById(leagueId);
-				newAthlete.setLeague(league);
-			}
-		}
+        Integer leagueId = athleteBody.getLeagueId();
+        if (leagueId != null) {
+            if (teamId != null) {
+                /*
+                 * Cannot specify both - case 1: team sport; case 2: solo sport
+                 */
+                return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+            } else {
+                League league = leagueService.getLeagueById(leagueId);
+                newAthlete.setLeague(league);
+            }
+        }
 
-		athleteService.addAthlete(newAthlete);
-		return new ResponseEntity<Void>(HttpStatus.CREATED);
-	}
+        athleteService.addAthlete(newAthlete);
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
 
-	/**
-	 * UPDATE
-	 */
-	@PutMapping("/{id}")
-	public ResponseEntity<Void> updateAthleteById(@PathVariable("id") Integer id,
-			@RequestBody AthleteBody athleteBody) {
-		Athlete athlete = athleteService.getAthleteByid(id);
-		String name = athleteBody.getName();
-		if (name != null) {
-			athlete.setName(name);
-		}
+    /**
+     * UPDATE
+     */
+    @PutMapping("/{id}")
+    public ResponseEntity<Void> updateAthleteById(@PathVariable("id") Integer id,
+                                                  @RequestBody AthleteBody athleteBody) {
+        Athlete athlete = athleteService.getAthleteByid(id);
+        String name = athleteBody.getName();
+        if (name != null) {
+            athlete.setName(name);
+        }
 
-		Integer age = athleteBody.getAge();
-		if (age != null) {
-			athlete.setAge(age);
-		}
+        Integer age = athleteBody.getAge();
+        if (age != null) {
+            athlete.setAge(age);
+        }
 
-		Integer teamId = athleteBody.getTeamId();
-		if (teamId != null) {
-			Team team = teamService.getTeamById(teamId);
-			athlete.setTeam(team);
-			athlete.setLeague(team.getLeague());
-		}
+        Integer teamId = athleteBody.getTeamId();
+        if (teamId != null) {
+            Team team = teamService.getTeamById(teamId);
+            athlete.setTeam(team);
+            athlete.setLeague(team.getLeague());
+        }
 
-		Integer leagueId = athleteBody.getLeagueId();
-		if (leagueId != null) {
-			if (teamId != null) {
-				/*
-				 * Cannot specify both - case 1: team sport; case 2: solo sport
-				 */
-				return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-			} else {
-				League league = leagueService.getLeagueById(leagueId);
-				athlete.setLeague(league);
-			}
-		}
+        Integer leagueId = athleteBody.getLeagueId();
+        if (leagueId != null) {
+            if (teamId != null) {
+                /*
+                 * Cannot specify both - case 1: team sport; case 2: solo sport
+                 */
+                return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+            } else {
+                League league = leagueService.getLeagueById(leagueId);
+                athlete.setLeague(league);
+            }
+        }
 
-		athleteService.updateAthlete(athlete);
-		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
-	}
+        athleteService.updateAthlete(athlete);
+        return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+    }
 
-	/**
-	 * Delete
-	 */
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteAthlete(@PathVariable("id") Integer id) {
-		athleteService.deleteAthlete(id);
-		return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
-	}
+    /**
+     * Delete
+     */
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteAthlete(@PathVariable("id") Integer id) {
+        athleteService.deleteAthlete(id);
+        return new ResponseEntity<Void>(HttpStatus.NO_CONTENT);
+    }
 }

@@ -16,49 +16,49 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 @Entity
 public class SportType {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-	@NotNull
-	@NotBlank
-	private String name;
+    @NotNull
+    @NotBlank
+    private String name;
 
-	private String description;
+    private String description;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
-	private Set<SportCategory> sportCategories;
+    @JsonIgnore
+    @OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
+    private Set<SportCategory> sportCategories;
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public String getDescription() {
-		return description;
-	}
+    public String getDescription() {
+        return description;
+    }
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+    public void setDescription(String description) {
+        this.description = description;
+    }
 
-	public Set<SportCategory> getSportCategories() {
-		return sportCategories;
-	}
+    public Set<SportCategory> getSportCategories() {
+        return sportCategories;
+    }
 
-	public void setSportCategories(Set<SportCategory> sportCategories) {
-		this.sportCategories = sportCategories;
-	}
+    public void setSportCategories(Set<SportCategory> sportCategories) {
+        this.sportCategories = sportCategories;
+    }
 }

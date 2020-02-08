@@ -33,171 +33,171 @@ import com.nbu.sportsandrules.service.SportService;
 @Controller
 @RequestMapping(path = "api/sports")
 public class SportController {
-	@Autowired
-	private SportService sportService;
+    @Autowired
+    private SportService sportService;
 
-	@Autowired
-	private SportCategoryService sportCategoryService;
+    @Autowired
+    private SportCategoryService sportCategoryService;
 
-	@Autowired
-	private LeagueService leagueService;
+    @Autowired
+    private LeagueService leagueService;
 
-	@GetMapping()
-	public ResponseEntity<List<SportBody>> getAllSports() {
-		List<Sport> allSports = sportService.getAllSports();
-		List<SportBody> allSportBodies = new ArrayList<>();
-		for (Sport sport : allSports) {
-			allSportBodies.add(sport.initSportBody());
-		}
-		return new ResponseEntity<>(allSportBodies, HttpStatus.OK);
-	}
+    @GetMapping()
+    public ResponseEntity<List<SportBody>> getAllSports() {
+        List<Sport> allSports = sportService.getAllSports();
+        List<SportBody> allSportBodies = new ArrayList<>();
+        for (Sport sport : allSports) {
+            allSportBodies.add(sport.initSportBody());
+        }
+        return new ResponseEntity<>(allSportBodies, HttpStatus.OK);
+    }
 
-	@GetMapping("/{id}")
-	public ResponseEntity<SportBody> getSportById(@PathVariable("id") Integer id) {
-		Sport sport = sportService.getSportById(id);
+    @GetMapping("/{id}")
+    public ResponseEntity<SportBody> getSportById(@PathVariable("id") Integer id) {
+        Sport sport = sportService.getSportById(id);
 
-		if (sport == null) {
-			return new ResponseEntity<SportBody>(HttpStatus.NOT_FOUND);
-		}
+        if (sport == null) {
+            return new ResponseEntity<SportBody>(HttpStatus.NOT_FOUND);
+        }
 
-		SportBody sportBody = sport.initSportBody();
-		return new ResponseEntity<SportBody>(sportBody, HttpStatus.OK);
-	}
+        SportBody sportBody = sport.initSportBody();
+        return new ResponseEntity<SportBody>(sportBody, HttpStatus.OK);
+    }
 
-	@GetMapping("/{id}/leagues")
-	public ResponseEntity<List<LeagueBody>> getLeaguesBySportId(@PathVariable("id") Integer id) {
-		List<League> leagues = leagueService.getLeaguesBySportId(id);
-		List<LeagueBody> leagueBodies = new ArrayList<>();
+    @GetMapping("/{id}/leagues")
+    public ResponseEntity<List<LeagueBody>> getLeaguesBySportId(@PathVariable("id") Integer id) {
+        List<League> leagues = leagueService.getLeaguesBySportId(id);
+        List<LeagueBody> leagueBodies = new ArrayList<>();
 
-		for (League league : leagues) {
-			LeagueBody leagueBody = league.initLeagueBody();
-			/*
-			 * List<TeamBody> teamBodies = new ArrayList<>();
-			 * 
-			 * List<Team> teams = teamService.getTeamsByLeagueId(league.getId()); for (Team
-			 * team : teams) { team.setLeague(league); teamBodies.add(team.initTeamBody());
-			 * }
-			 * 
-			 * leagueBody.setTeams(teamBodies);
-			 */
-			leagueBodies.add(leagueBody);
-		}
+        for (League league : leagues) {
+            LeagueBody leagueBody = league.initLeagueBody();
+            /*
+             * List<TeamBody> teamBodies = new ArrayList<>();
+             *
+             * List<Team> teams = teamService.getTeamsByLeagueId(league.getId()); for (Team
+             * team : teams) { team.setLeague(league); teamBodies.add(team.initTeamBody());
+             * }
+             *
+             * leagueBody.setTeams(teamBodies);
+             */
+            leagueBodies.add(leagueBody);
+        }
 
-		return new ResponseEntity<List<LeagueBody>>(leagueBodies, HttpStatus.OK);
-	}
+        return new ResponseEntity<List<LeagueBody>>(leagueBodies, HttpStatus.OK);
+    }
 
-	@PostMapping()
-	public ResponseEntity<Void> addSport(@RequestBody SportBody sportBody) {
-		SportCategory sportCategoryByid = sportCategoryService.getSportCategoryByid(sportBody.getCategoryId());
-		Sport sport;
-		try {
-			sport = sportBody.initSport(sportCategoryByid);
-		} catch (ConstraintViolationException e) {
-			return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
-		}
-		boolean sportExists = sportService.addSport(sport);
-		if (sportExists) {
-			return new ResponseEntity<Void>(HttpStatus.CONFLICT);
-		}
+    @PostMapping()
+    public ResponseEntity<Void> addSport(@RequestBody SportBody sportBody) {
+        SportCategory sportCategoryByid = sportCategoryService.getSportCategoryByid(sportBody.getCategoryId());
+        Sport sport;
+        try {
+            sport = sportBody.initSport(sportCategoryByid);
+        } catch (ConstraintViolationException e) {
+            return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+        }
+        boolean sportExists = sportService.addSport(sport);
+        if (sportExists) {
+            return new ResponseEntity<Void>(HttpStatus.CONFLICT);
+        }
 
-		List<Achievement> achievements = new ArrayList<>();
-		for (AchievementBody achievementBody : sportBody.getAchievements()) {
-			Achievement a = achievementBody.initAchievement();
-			a.setSport(sport);
-			achievements.add(a);
-		}
+        List<Achievement> achievements = new ArrayList<>();
+        for (AchievementBody achievementBody : sportBody.getAchievements()) {
+            Achievement a = achievementBody.initAchievement();
+            a.setSport(sport);
+            achievements.add(a);
+        }
 
-		sport.setAchievements(achievements);
-		sportService.saveAchievements(achievements);
+        sport.setAchievements(achievements);
+        sportService.saveAchievements(achievements);
 
-		return new ResponseEntity<Void>(HttpStatus.CREATED);
-	}
+        return new ResponseEntity<Void>(HttpStatus.CREATED);
+    }
 
-	@PutMapping("{id}")
-	public ResponseEntity<Void> updateSportById(@PathVariable("id") Integer id, @RequestBody SportBody sportBody) {
-		Sport sport = sportService.getSportById(id);
-		if (sport == null) {
-			return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-		}
+    @PutMapping("{id}")
+    public ResponseEntity<Void> updateSportById(@PathVariable("id") Integer id, @RequestBody SportBody sportBody) {
+        Sport sport = sportService.getSportById(id);
+        if (sport == null) {
+            return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+        }
 
-		String name = sportBody.getName();
-		if (name != null) {
-			sport.setName(name);
-		}
+        String name = sportBody.getName();
+        if (name != null) {
+            sport.setName(name);
+        }
 
-		String history = sportBody.getHistory();
-		if (history != null) {
-			sport.setHistory(history);
-		}
+        String history = sportBody.getHistory();
+        if (history != null) {
+            sport.setHistory(history);
+        }
 
-		Integer categoryId = sportBody.getCategoryId();
-		if (categoryId != null) {
-			sport.setCategory(sportCategoryService.getSportCategoryByid(categoryId));
-		}
+        Integer categoryId = sportBody.getCategoryId();
+        if (categoryId != null) {
+            sport.setCategory(sportCategoryService.getSportCategoryByid(categoryId));
+        }
 
-		List<AchievementBody> achievements = sportBody.getAchievements();
-		if (achievements != null) {
-			List<Achievement> updateAchievements = new ArrayList<>();
+        List<AchievementBody> achievements = sportBody.getAchievements();
+        if (achievements != null) {
+            List<Achievement> updateAchievements = new ArrayList<>();
 
-			for (AchievementBody achievementBody : achievements) {
-				try {
-					Achievement a = addOrUpdateAchievement(sport, achievementBody);
-					updateAchievements.add(a);
-				} catch (NoSuchElementException nse) {
-					return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
-				}
+            for (AchievementBody achievementBody : achievements) {
+                try {
+                    Achievement a = addOrUpdateAchievement(sport, achievementBody);
+                    updateAchievements.add(a);
+                } catch (NoSuchElementException nse) {
+                    return new ResponseEntity<Void>(HttpStatus.NOT_FOUND);
+                }
 
-			}
+            }
 
-			sport.setAchievements(updateAchievements);
-			sportService.saveAchievements(updateAchievements);
-		}
-		sportService.updateSport(sport);
+            sport.setAchievements(updateAchievements);
+            sportService.saveAchievements(updateAchievements);
+        }
+        sportService.updateSport(sport);
 
-		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
-	}
+        return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+    }
 
-	private Achievement addOrUpdateAchievement(Sport sport, AchievementBody achievementBody) {
-		Integer achievementToUpdateId = achievementBody.getId();
-		Achievement a;
-		if (achievementToUpdateId == null) {
-			a = achievementBody.initAchievement();
-		} else {
-			a = sportService.getAchivementByIdAndSportId(achievementToUpdateId, sport.getId());
-			if (a == null) {
+    private Achievement addOrUpdateAchievement(Sport sport, AchievementBody achievementBody) {
+        Integer achievementToUpdateId = achievementBody.getId();
+        Achievement a;
+        if (achievementToUpdateId == null) {
+            a = achievementBody.initAchievement();
+        } else {
+            a = sportService.getAchivementByIdAndSportId(achievementToUpdateId, sport.getId());
+            if (a == null) {
 
-				throw new NoSuchElementException();
-			}
-		}
+                throw new NoSuchElementException();
+            }
+        }
 
-		String newName = achievementBody.getName();
-		if (newName != null) {
-			a.setName(newName);
-		}
+        String newName = achievementBody.getName();
+        if (newName != null) {
+            a.setName(newName);
+        }
 
-		String newDescription = achievementBody.getDescription();
-		if (newDescription != null) {
-			a.setDescription(newDescription);
-		}
+        String newDescription = achievementBody.getDescription();
+        if (newDescription != null) {
+            a.setDescription(newDescription);
+        }
 
-		OffsetDateTime newDate = achievementBody.getDate();
-		if (newDate != null) {
-			a.setDate(newDate);
-		}
+        OffsetDateTime newDate = achievementBody.getDate();
+        if (newDate != null) {
+            a.setDate(newDate);
+        }
 
-		Double newScore = achievementBody.getScore();
-		if (newScore != null) {
-			a.setScore(newScore);
-		}
+        Double newScore = achievementBody.getScore();
+        if (newScore != null) {
+            a.setScore(newScore);
+        }
 
-		a.setSport(sport);
-		return a;
-	}
+        a.setSport(sport);
+        return a;
+    }
 
-	@DeleteMapping("/{id}")
-	public ResponseEntity<Void> deleteSportById(@PathVariable("id") Integer id) {
-		sportService.deleteSportById(id);
-		return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
-	}
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteSportById(@PathVariable("id") Integer id) {
+        sportService.deleteSportById(id);
+        return new ResponseEntity<Void>(HttpStatus.ACCEPTED);
+    }
 
 }

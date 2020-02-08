@@ -19,111 +19,111 @@ import com.nbu.sportsandrules.controller.body.LeagueBody;
 
 @Entity
 public class League {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	private Integer id;
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    private Integer id;
 
-	private String name;
+    private String name;
 
-	private String country;
+    private String country;
 
-	@JsonIgnore
-	@ManyToMany(cascade = { CascadeType.ALL })
-	@JoinTable(name = "Favourite_Athletes", joinColumns = { @JoinColumn(name = "league_id") }, inverseJoinColumns = {
-			@JoinColumn(name = "athlete_id") })
-	private Set<Athlete> favouriteAthletes;
+    @JsonIgnore
+    @ManyToMany(cascade = {CascadeType.ALL})
+    @JoinTable(name = "Favourite_Athletes", joinColumns = {@JoinColumn(name = "league_id")}, inverseJoinColumns = {
+            @JoinColumn(name = "athlete_id")})
+    private Set<Athlete> favouriteAthletes;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "league")
-	private List<Team> teams;
+    @JsonIgnore
+    @OneToMany(mappedBy = "league")
+    private List<Team> teams;
 
-	@JsonIgnore
-	@OneToMany(mappedBy = "league")
-	private List<Athlete> athletes;
+    @JsonIgnore
+    @OneToMany(mappedBy = "league")
+    private List<Athlete> athletes;
 
-	@OneToMany(mappedBy = "league")
-	@JsonIgnore
-	private Set<Comment> comments;
+    @OneToMany(mappedBy = "league")
+    @JsonIgnore
+    private Set<Comment> comments;
 
-	@JsonIgnore
-	@ManyToOne
-	@JoinColumn(name = "sport_id")
-	private Sport sport;
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn(name = "sport_id")
+    private Sport sport;
 
-	public League() {
-	}
+    public League() {
+    }
 
-	public Integer getId() {
-		return id;
-	}
+    public Integer getId() {
+        return id;
+    }
 
-	public void setId(Integer id) {
-		this.id = id;
-	}
+    public void setId(Integer id) {
+        this.id = id;
+    }
 
-	public String getName() {
-		return name;
-	}
+    public String getName() {
+        return name;
+    }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+    public void setName(String name) {
+        this.name = name;
+    }
 
-	public Sport getSport() {
-		return sport;
-	}
+    public Sport getSport() {
+        return sport;
+    }
 
-	public void setSport(Sport sport) {
-		this.sport = sport;
-	}
+    public void setSport(Sport sport) {
+        this.sport = sport;
+    }
 
-	public String getCountry() {
-		return country;
-	}
+    public String getCountry() {
+        return country;
+    }
 
-	public void setCountry(String country) {
-		this.country = country;
-	}
+    public void setCountry(String country) {
+        this.country = country;
+    }
 
-	public Set<Athlete> getFavouriteAthletes() {
-		return favouriteAthletes;
-	}
+    public Set<Athlete> getFavouriteAthletes() {
+        return favouriteAthletes;
+    }
 
-	public void setFavouriteAthletes(Set<Athlete> favouriteAthletes) {
-		this.favouriteAthletes = favouriteAthletes;
-	}
+    public void setFavouriteAthletes(Set<Athlete> favouriteAthletes) {
+        this.favouriteAthletes = favouriteAthletes;
+    }
 
-	public List<Team> getTeams() {
-		return teams;
-	}
+    public List<Team> getTeams() {
+        return teams;
+    }
 
-	public void setTeams(List<Team> teams) {
-		this.teams = teams;
-	}
+    public void setTeams(List<Team> teams) {
+        this.teams = teams;
+    }
 
-	public Set<Comment> getComments() {
-		return comments;
-	}
+    public Set<Comment> getComments() {
+        return comments;
+    }
 
-	public void setComments(Set<Comment> comments) {
-		this.comments = comments;
-	}
+    public void setComments(Set<Comment> comments) {
+        this.comments = comments;
+    }
 
-	public LeagueBody initLeagueBody() {
-		LeagueBody body = new LeagueBody();
-		body.setId(id);
-		body.setCountry(country);
-		body.setName(name);
-		body.setSportId(sport.getId());
-		return body;
-	}
+    public LeagueBody initLeagueBody() {
+        LeagueBody body = new LeagueBody();
+        body.setId(id);
+        body.setCountry(country);
+        body.setName(name);
+        body.setSportId(sport.getId());
+        return body;
+    }
 
-	public List<Athlete> getAthletes() {
-		return athletes;
-	}
+    public List<Athlete> getAthletes() {
+        return athletes;
+    }
 
-	public void setAthletes(List<Athlete> athletes) {
-		this.athletes = athletes;
-	}
+    public void setAthletes(List<Athlete> athletes) {
+        this.athletes = athletes;
+    }
 
 }

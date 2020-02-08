@@ -8,8 +8,8 @@ import com.nbu.sportsandrules.entity.Team;
 
 public interface TeamRepository extends CrudRepository<Team, Integer> {
 
-	List<Team> findByName(String name);
+    List<Team> findByName(String name);
 
-	List<Team> findByLeagueId(Integer id);
+    List<Team> findByLeagueId(Integer id);
 
 }

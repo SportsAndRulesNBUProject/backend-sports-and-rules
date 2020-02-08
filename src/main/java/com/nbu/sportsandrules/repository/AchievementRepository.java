@@ -8,7 +8,7 @@ import com.nbu.sportsandrules.entity.Achievement;
 
 public interface AchievementRepository extends CrudRepository<Achievement, Integer> {
 
-	List<Achievement> findBySportId(Integer sportId);
+    List<Achievement> findBySportId(Integer sportId);
 
-	Achievement findByIdAndSportId(Integer id, Integer sportId);
+    Achievement findByIdAndSportId(Integer id, Integer sportId);
 }

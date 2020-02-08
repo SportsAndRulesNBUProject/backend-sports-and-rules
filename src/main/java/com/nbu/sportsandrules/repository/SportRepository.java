@@ -7,12 +7,12 @@ import org.springframework.data.repository.CrudRepository;
 import com.nbu.sportsandrules.entity.Sport;
 
 public interface SportRepository extends CrudRepository<Sport, Integer> {
-	List<Sport> findByCategoryName(String name);
+    List<Sport> findByCategoryName(String name);
 
-	List<Sport> findByCategoryNameIn(List<String> name);
+    List<Sport> findByCategoryNameIn(List<String> name);
 
-	List<Sport> findByName(String name);
+    List<Sport> findByName(String name);
 
-	List<Sport> findByCategoryId(Integer id);
+    List<Sport> findByCategoryId(Integer id);
 
 }

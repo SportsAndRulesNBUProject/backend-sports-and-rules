@@ -18,7 +18,7 @@ public class ExampleController {
     @GetMapping
     public ResponseEntity<Iterable<Example>> getAllExamples() {
 
-        return new ResponseEntity<>(exampleService.getAllExamples(),  HttpStatus.OK);
+        return new ResponseEntity<>(exampleService.getAllExamples(), HttpStatus.OK);
     }
 
     @PostMapping("/{example}")

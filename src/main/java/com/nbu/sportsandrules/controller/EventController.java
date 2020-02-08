@@ -22,38 +22,38 @@ import com.nbu.sportsandrules.service.TeamService;
 @Controller
 @RequestMapping("event")
 public class EventController {
-	@Autowired
-	private EventService eventService;
+    @Autowired
+    private EventService eventService;
 
-	@Autowired
-	private SportService sportService;
+    @Autowired
+    private SportService sportService;
 
-	@Autowired
-	private TeamService teamService;
+    @Autowired
+    private TeamService teamService;
 
-	@GetMapping("all")
-	public ResponseEntity<List<Event>> getAllEvents() {
-		return new ResponseEntity<>(eventService.getAllEvents(), HttpStatus.OK);
-	}
+    @GetMapping("all")
+    public ResponseEntity<List<Event>> getAllEvents() {
+        return new ResponseEntity<>(eventService.getAllEvents(), HttpStatus.OK);
+    }
 
-	@GetMapping("/{id}")
-	public Event getEventById(@PathVariable("id") Integer id) {
-		return eventService.getEventById(id);
-	}
+    @GetMapping("/{id}")
+    public Event getEventById(@PathVariable("id") Integer id) {
+        return eventService.getEventById(id);
+    }
 
-	@PostMapping("/add")
-	public ResponseEntity<Event> addExample(@PathVariable("id") EventBody eventBody) {
-		Event newEvent = eventBody.initEvent();
+    @PostMapping("/add")
+    public ResponseEntity<Event> addExample(@PathVariable("id") EventBody eventBody) {
+        Event newEvent = eventBody.initEvent();
 
-		Sport sport = sportService.getSportById(eventBody.getSportId());
-		Team hostTeam = teamService.getTeamById(eventBody.getHostTeamId());
-		Team guestTeam = teamService.getTeamById(eventBody.getGuestTeamId());
+        Sport sport = sportService.getSportById(eventBody.getSportId());
+        Team hostTeam = teamService.getTeamById(eventBody.getHostTeamId());
+        Team guestTeam = teamService.getTeamById(eventBody.getGuestTeamId());
 
-		newEvent.setSport(sport);
-		newEvent.setHostTeam(hostTeam);
-		newEvent.setGuestTeam(guestTeam);
+        newEvent.setSport(sport);
+        newEvent.setHostTeam(hostTeam);
+        newEvent.setGuestTeam(guestTeam);
 
-		eventService.addEvent(newEvent);
-		return new ResponseEntity<Event>(HttpStatus.ACCEPTED);
-	}
+        eventService.addEvent(newEvent);
+        return new ResponseEntity<Event>(HttpStatus.ACCEPTED);
+    }
 }
