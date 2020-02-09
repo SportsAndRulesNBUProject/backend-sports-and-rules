@@ -1,13 +1,13 @@
-// package com.nbu.sportsandrules;
+package com.nbu.sportsandrules;
 
-// import org.junit.jupiter.api.Test;
-// import org.springframework.boot.test.context.SpringBootTest;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-// @SpringBootTest
-// class SportsAndRulesApplicationTests {
+@SpringBootTest
+class SportsAndRulesApplicationTests {
 
-//     @Test
-//     void contextLoads() {
-//     }
+    @Test
+    void contextLoads() {
+    }
 
-// }
+}
