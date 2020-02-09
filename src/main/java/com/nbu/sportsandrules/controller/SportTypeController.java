@@ -12,12 +12,15 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+
 
 import com.nbu.sportsandrules.entity.SportCategory;
 import com.nbu.sportsandrules.entity.SportType;
 import com.nbu.sportsandrules.service.SportCategoryService;
 import com.nbu.sportsandrules.service.SportTypeService;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping(path = "api/sport-types")
 public class SportTypeController {

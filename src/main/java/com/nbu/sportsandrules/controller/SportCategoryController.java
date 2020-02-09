@@ -25,7 +25,10 @@ import com.nbu.sportsandrules.entity.SportType;
 import com.nbu.sportsandrules.service.SportCategoryService;
 import com.nbu.sportsandrules.service.SportService;
 import com.nbu.sportsandrules.service.SportTypeService;
+import org.springframework.web.bind.annotation.*;
 
+
+@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping(path = "api/sport-categories")
 public class SportCategoryController {

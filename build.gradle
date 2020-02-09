@@ -19,9 +19,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation('io.jsonwebtoken:jjwt:0.2')
 	runtimeOnly 'mysql:mysql-connector-java'
-	testImplementation('org.springframework.boot:spring-boot-starter-test') {
-		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
-	}
+	// testImplementation('org.springframework.boot:spring-boot-starter-test') {
+	// 	exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
+	// }
 }
 
 test {

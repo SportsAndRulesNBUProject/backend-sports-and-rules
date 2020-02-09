@@ -10,6 +10,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import com.nbu.sportsandrules.controller.body.EventBody;
 import com.nbu.sportsandrules.entity.Event;
@@ -19,6 +20,7 @@ import com.nbu.sportsandrules.service.EventService;
 import com.nbu.sportsandrules.service.SportService;
 import com.nbu.sportsandrules.service.TeamService;
 
+@CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
 @RequestMapping("event")
 public class EventController {
