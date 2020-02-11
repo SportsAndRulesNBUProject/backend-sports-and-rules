@@ -56,14 +56,6 @@ public class Sport {
         this.category = sportCategory;
     }
 
-    public List<League> getLeague() {
-        return leagues;
-    }
-
-    public void setLeague(List<League> leagues) {
-        this.leagues = leagues;
-    }
-
     public Integer getId() {
         return id;
     }
@@ -110,6 +102,14 @@ public class Sport {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public List<League> getLeagues() {
+        return leagues;
+    }
+
+    public void setLeagues(List<League> leagues) {
+        this.leagues = leagues;
     }
 
     @Override

@@ -1,8 +1,10 @@
 package com.nbu.sportsandrules.service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import com.nbu.sportsandrules.controller.body.SportCategoryBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,8 +32,10 @@ public class SportCategoryService {
         sportCategoryRepository.save(sportCategory);
     }
 
-    public Iterable<SportCategory> getAllSportSportCategories() {
-        return sportCategoryRepository.findAll();
+    public List<SportCategoryBody> getAllSportSportCategories() {
+        List<SportCategoryBody> sportCategoryBodies = new ArrayList<>();
+        sportCategoryRepository.findAll().forEach(sportCategory -> sportCategoryBodies.add(sportCategory.buildBody()));
+        return sportCategoryBodies;
     }
 
     public SportCategory getSportCategoryByid(Integer id) {

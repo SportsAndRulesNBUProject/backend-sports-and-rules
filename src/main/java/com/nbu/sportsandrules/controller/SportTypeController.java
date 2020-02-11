@@ -2,6 +2,7 @@ package com.nbu.sportsandrules.controller;
 
 import java.util.List;
 
+import com.nbu.sportsandrules.controller.body.SportTypeBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -31,17 +32,17 @@ public class SportTypeController {
     private SportCategoryService sportCategoryService;
 
     @GetMapping()
-    public ResponseEntity<List<SportType>> getAllSportTypes() {
+    public ResponseEntity<List<SportTypeBody>> getAllSportTypes() {
         return new ResponseEntity<>(sportTypeService.getAllSportTypes(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SportType> getSportTypeById(@PathVariable("id") Integer id) {
+    public ResponseEntity<SportTypeBody> getSportTypeById(@PathVariable("id") Integer id) {
         SportType sportType = sportTypeService.getSportTypeByid(id);
         if (sportType == null) {
-            return new ResponseEntity<SportType>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<SportType>(sportType, HttpStatus.OK);
+        return new ResponseEntity<>(sportType.buildBody(), HttpStatus.OK);
     }
 
     @GetMapping("{id}/sport-categories")
@@ -54,8 +55,8 @@ public class SportTypeController {
      * add
      */
     @PostMapping()
-    public ResponseEntity<Void> addSportType(@RequestBody SportType sportType) {
-        boolean sportTypeExists = sportTypeService.addSportType(sportType);
+    public ResponseEntity<Void> addSportType(@RequestBody SportTypeBody sportType) {
+        boolean sportTypeExists = sportTypeService.addSportType(sportType.build());
         if (sportTypeExists) {
             return new ResponseEntity<Void>(HttpStatus.CONFLICT);
         }

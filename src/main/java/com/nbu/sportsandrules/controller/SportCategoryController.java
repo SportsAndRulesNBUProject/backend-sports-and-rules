@@ -42,7 +42,7 @@ public class SportCategoryController {
     private SportService sportService;
 
     @GetMapping()
-    public ResponseEntity<Iterable<SportCategory>> getAllSportSportCategories() {
+    public ResponseEntity<Iterable<SportCategoryBody>> getAllSportSportCategories() {
         return new ResponseEntity<>(sportCategoryService.getAllSportSportCategories(), HttpStatus.OK);
     }
 
@@ -75,6 +75,11 @@ public class SportCategoryController {
         try {
             newCategory = sportCategoryBody.initSportCategory();
             SportType newSportType = sportTypeService.getSportTypeByid(sportCategoryBody.getTypeId());
+
+            if (newSportType == null) {
+                return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);
+            }
+
             newCategory.setType(newSportType);
         } catch (ConstraintViolationException e) {
             return new ResponseEntity<Void>(HttpStatus.BAD_REQUEST);

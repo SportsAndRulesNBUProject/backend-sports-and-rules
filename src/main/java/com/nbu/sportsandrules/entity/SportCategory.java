@@ -2,17 +2,13 @@ package com.nbu.sportsandrules.entity;
 
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nbu.sportsandrules.controller.body.SportCategoryBody;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 @Entity
 public class SportCategory {
@@ -35,7 +31,19 @@ public class SportCategory {
     @JsonIgnore
     private Set<Sport> sports;
 
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] image;
+
     public SportCategory() {
+    }
+
+    public SportCategoryBody buildBody() {
+        SportCategoryBody sportCategoryBody = new SportCategoryBody();
+        sportCategoryBody.setName(name);
+        sportCategoryBody.setDescription(description);
+        sportCategoryBody.setImage(Base64.encode(image));
+        return sportCategoryBody;
     }
 
     public Integer getId() {
@@ -78,4 +86,11 @@ public class SportCategory {
         this.sports = sports;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
 }

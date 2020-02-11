@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
 
+import com.nbu.sportsandrules.controller.body.SportTypeBody;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -27,9 +28,9 @@ public class SportTypeService {
         return false;
     }
 
-    public List<SportType> getAllSportTypes() {
-        List<SportType> sportTypes = new ArrayList<>();
-        sportTypeRepository.findAll().forEach(s -> sportTypes.add(s));
+    public List<SportTypeBody> getAllSportTypes() {
+        List<SportTypeBody> sportTypes = new ArrayList<>();
+        sportTypeRepository.findAll().forEach(s -> sportTypes.add(s.buildBody()));
         return sportTypes;
     }
 

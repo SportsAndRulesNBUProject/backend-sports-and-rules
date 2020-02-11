@@ -2,16 +2,13 @@ package com.nbu.sportsandrules.entity;
 
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nbu.sportsandrules.controller.body.SportTypeBody;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 @Entity
 public class SportType {
@@ -26,9 +23,22 @@ public class SportType {
 
     private String description;
 
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] image;
+
     @JsonIgnore
     @OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
     private Set<SportCategory> sportCategories;
+
+    public SportTypeBody buildBody() {
+        SportTypeBody sportTypeBody = new SportTypeBody();
+        sportTypeBody.setName(name);
+        sportTypeBody.setDescription(description);
+        sportTypeBody.setImage(Base64.encode(image));
+        return sportTypeBody;
+    }
+
 
     public SportType() {
     }
@@ -63,5 +73,13 @@ public class SportType {
 
     public void setSportCategories(Set<SportCategory> sportCategories) {
         this.sportCategories = sportCategories;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
     }
 }

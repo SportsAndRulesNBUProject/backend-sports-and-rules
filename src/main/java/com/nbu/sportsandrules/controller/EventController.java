@@ -22,7 +22,7 @@ import com.nbu.sportsandrules.service.TeamService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
-@RequestMapping("event")
+@RequestMapping("api/event")
 public class EventController {
     @Autowired
     private EventService eventService;
@@ -44,7 +44,7 @@ public class EventController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Event> addExample(@PathVariable("id") EventBody eventBody) {
+    public ResponseEntity<Event> addEvent(@PathVariable("id") EventBody eventBody) {
         Event newEvent = eventBody.initEvent();
 
         Sport sport = sportService.getSportById(eventBody.getSportId());
