@@ -7,11 +7,12 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.nbu.sportsandrules.controller.body.SportCategoryBody;
+import com.nbu.sportsandrules.controller.body.SportTypeBody;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 @Entity
-public class SportCategory {
+public class SportType {
+
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
@@ -20,30 +21,26 @@ public class SportCategory {
     @NotBlank
     private String name;
 
-    @NotNull
-    @ManyToOne
-    @JoinColumn(name = "type_id")
-    private SportType type;
-
     private String description;
-
-    @OneToMany(mappedBy = "category")
-    @JsonIgnore
-    private Set<Sport> sports;
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private byte[] image;
 
-    public SportCategory() {
+    @JsonIgnore
+    @OneToMany(mappedBy = "type", cascade = CascadeType.ALL)
+    private Set<SportCategory> sportCategories;
+
+    public SportTypeBody buildBody() {
+        SportTypeBody sportTypeBody = new SportTypeBody();
+        sportTypeBody.setName(name);
+        sportTypeBody.setDescription(description);
+        sportTypeBody.setImage(Base64.encode(image));
+        return sportTypeBody;
     }
 
-    public SportCategoryBody buildBody() {
-        SportCategoryBody sportCategoryBody = new SportCategoryBody();
-        sportCategoryBody.setName(name);
-        sportCategoryBody.setDescription(description);
-        sportCategoryBody.setImage(Base64.encode(image));
-        return sportCategoryBody;
+
+    public SportType() {
     }
 
     public Integer getId() {
@@ -62,14 +59,6 @@ public class SportCategory {
         this.name = name;
     }
 
-    public SportType getType() {
-        return type;
-    }
-
-    public void setType(SportType type) {
-        this.type = type;
-    }
-
     public String getDescription() {
         return description;
     }
@@ -78,12 +67,12 @@ public class SportCategory {
         this.description = description;
     }
 
-    public Set<Sport> getSports() {
-        return sports;
+    public Set<SportCategory> getSportCategories() {
+        return sportCategories;
     }
 
-    public void setSports(Set<Sport> sports) {
-        this.sports = sports;
+    public void setSportCategories(Set<SportCategory> sportCategories) {
+        this.sportCategories = sportCategories;
     }
 
     public byte[] getImage() {

@@ -1,7 +1,21 @@
 package com.nbu.sportsandrules.entity;
 
-import javax.persistence.*;
 import java.util.Set;
+
+import javax.persistence.CascadeType;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nbu.sportsandrules.controller.body.AthleteBody;
 
 @Entity
 public class Athlete {
@@ -9,25 +23,42 @@ public class Athlete {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
 
+    @NotNull
+    @NotBlank
     private String name;
 
     private Integer age;
 
     @JoinColumn(name = "team_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @JsonIgnore
+    @ManyToOne
     private Team team;
 
     @JoinColumn(name = "league_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne // (cascade = CascadeType.ALL)
+    @JsonIgnore
     private League league;
 
     @ManyToMany(mappedBy = "favouriteAthletes")
+    @JsonIgnore
     private Set<League> favouriteLeagues;
 
     @OneToMany(mappedBy = "athlete")
     private Set<Comment> comments;
 
     public Athlete() {
+    }
+
+    public AthleteBody initAthleteBody() {
+        AthleteBody athleteBody = new AthleteBody();
+        athleteBody.setId(id);
+        athleteBody.setName(name);
+        athleteBody.setAge(age);
+        if (team != null) {
+            athleteBody.setTeamId(team.getId());
+        }
+        athleteBody.setLeagueId(league.getId());
+        return athleteBody;
     }
 
     public Integer getId() {

@@ -1,7 +1,17 @@
 package com.nbu.sportsandrules.entity;
 
-import javax.persistence.*;
 import java.util.Set;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nbu.sportsandrules.controller.body.TeamBody;
 
 @Entity
 public class Team {
@@ -11,19 +21,24 @@ public class Team {
 
     private String name;
 
+    @JsonIgnore
     @JoinColumn(name = "league_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private League league;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "team")
     private Set<Athlete> athletes;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "hostTeam")
     private Set<Event> hostEvents;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "guestTeam")
     private Set<Event> guestEvents;
 
+    @JsonIgnore
     @OneToMany(mappedBy = "team")
     private Set<Comment> comments;
 
@@ -84,5 +99,13 @@ public class Team {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    public TeamBody initTeamBody() {
+        TeamBody teamBody = new TeamBody();
+        teamBody.setId(id);
+        teamBody.setLeagueId(league.getId());
+        teamBody.setName(name);
+        return teamBody;
     }
 }

@@ -1,8 +1,16 @@
 package com.nbu.sportsandrules.entity;
 
-import javax.persistence.*;
 import java.time.OffsetDateTime;
-import java.util.List;
+
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.nbu.sportsandrules.controller.body.AchievementBody;
 
 @Entity
 public class Achievement {
@@ -12,12 +20,16 @@ public class Achievement {
 
     private String name;
 
+    private String description;
+
     private Double score;
 
     private OffsetDateTime date;
 
-    @ManyToMany(mappedBy = "achievements")
-    private List<Sport> sports;
+    @ManyToOne
+    @JoinColumn(name = "sport_id")
+    @JsonIgnore
+    private Sport sport;
 
     public Achievement() {
     }
@@ -38,6 +50,14 @@ public class Achievement {
         this.name = name;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
     public Double getScore() {
         return score;
     }
@@ -54,11 +74,21 @@ public class Achievement {
         this.date = date;
     }
 
-    public List<Sport> getSports() {
-        return sports;
+    public Sport getSport() {
+        return sport;
     }
 
-    public void setSports(List<Sport> sports) {
-        this.sports = sports;
+    public void setSport(Sport sport) {
+        this.sport = sport;
     }
+
+    public AchievementBody initAchievementBody() {
+        AchievementBody body = new AchievementBody();
+        body.setId(id);
+        body.setName(name);
+        body.setDate(date);
+        body.setScore(score);
+        return body;
+    }
+
 }
