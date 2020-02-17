@@ -64,6 +64,7 @@ public class Event {
         }
 
         eventBody.setCommentBodies(commentBodies);
+        eventBody.setId(id);
 
         return eventBody;
     }

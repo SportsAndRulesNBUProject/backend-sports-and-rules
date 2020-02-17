@@ -8,6 +8,7 @@ import com.nbu.sportsandrules.entity.Event;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 public class EventBody {
+    private Integer id;
     private String name;
     private OffsetDateTime date;
     private Integer sportId;
@@ -96,5 +97,13 @@ public class EventBody {
 
     public void setUpdatedDate(OffsetDateTime updatedDate) {
         this.updatedDate = updatedDate;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }
