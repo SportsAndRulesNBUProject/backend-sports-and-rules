@@ -1,6 +1,8 @@
 package com.nbu.sportsandrules.controller.body;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
 
@@ -13,27 +15,21 @@ public class EventBody {
     private Integer id;
     private String name;
 
-    @JsonProperty("timestamp")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private OffsetDateTime date;
+    private String date;
     private Integer sportId;
     private Integer leagueId;
     private Integer guestTeamId;
     private Set<CommentBody> commentBodies;
     private String image;
 
-    @JsonProperty("timestamp")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private OffsetDateTime createdDate;
 
-    @JsonProperty("timestamp")
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private OffsetDateTime updatedDate;
 
     public Event initEvent() {
         Event event = new Event();
         event.setName(name);
-        event.setDate(date);
+        event.setDate(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         event.setImage(Base64.decode(image));
         return event;
     }
@@ -46,11 +42,11 @@ public class EventBody {
         this.name = name;
     }
 
-    public OffsetDateTime getDate() {
+    public String getDate() {
         return date;
     }
 
-    public void setDate(OffsetDateTime date) {
+    public void setDate(String date) {
         this.date = date;
     }
 

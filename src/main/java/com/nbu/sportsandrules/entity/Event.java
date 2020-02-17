@@ -5,6 +5,7 @@ import com.nbu.sportsandrules.controller.body.EventBody;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.util.HashSet;
 import java.util.Set;
@@ -17,7 +18,7 @@ public class Event {
 
     private String name;
 
-    private OffsetDateTime date;
+    private LocalDate date;
 
     @JoinColumn(name = "sport_id")
     @ManyToOne
@@ -27,7 +28,7 @@ public class Event {
     @ManyToOne(cascade = CascadeType.MERGE)
     private Team guestTeam;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event")
     private Set<Comment> comments;
 
     @JoinColumn(name = "league_id")
@@ -48,7 +49,7 @@ public class Event {
     public EventBody buildEventBody() {
         EventBody eventBody = new EventBody();
         eventBody.setName(name);
-        eventBody.setDate(date);
+        eventBody.setDate(date.toString());
         eventBody.setImage(Base64.encode(image));
         eventBody.setCreatedDate(createdDate);
         eventBody.setUpdatedDate(updatedDate);
@@ -85,11 +86,11 @@ public class Event {
         this.name = name;
     }
 
-    public OffsetDateTime getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(OffsetDateTime date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 
