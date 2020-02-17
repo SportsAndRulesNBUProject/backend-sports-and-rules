@@ -104,10 +104,12 @@ public class SportController {
         }
 
         List<Achievement> achievements = new ArrayList<>();
-        for (AchievementBody achievementBody : sportBody.getAchievements()) {
-            Achievement a = achievementBody.initAchievement();
-            a.setSport(sport);
-            achievements.add(a);
+        if (sportBody.getAchievements() != null) {
+            for (AchievementBody achievementBody : sportBody.getAchievements()) {
+                Achievement a = achievementBody.initAchievement();
+                a.setSport(sport);
+                achievements.add(a);
+            }
         }
 
         sport.setAchievements(achievements);
