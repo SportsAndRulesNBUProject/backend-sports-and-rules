@@ -21,7 +21,13 @@ public class EventBody {
     private Integer guestTeamId;
     private Set<CommentBody> commentBodies;
     private String image;
+
+    @JsonProperty("timestamp")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private OffsetDateTime createdDate;
+
+    @JsonProperty("timestamp")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private OffsetDateTime updatedDate;
 
     public Event initEvent() {
