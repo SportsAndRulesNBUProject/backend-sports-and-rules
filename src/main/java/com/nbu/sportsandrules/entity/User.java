@@ -1,5 +1,7 @@
 package com.nbu.sportsandrules.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -24,8 +26,10 @@ public class User {
     @NotBlank
     @Size(max = 50)
     @Email
+    @JsonIgnore
     private String email;
 
+    @JsonIgnore
     private String password;
 
     @ManyToMany(fetch = FetchType.LAZY)

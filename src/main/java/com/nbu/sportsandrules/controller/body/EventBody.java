@@ -2,21 +2,27 @@ package com.nbu.sportsandrules.controller.body;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Set;
 
 import com.nbu.sportsandrules.entity.Event;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 public class EventBody {
     private String name;
     private OffsetDateTime date;
     private Integer sportId;
-    private Integer hostTeamId;
+    private Integer leagueId;
     private Integer guestTeamId;
-    private List<CommentBody> commentBodies;
+    private Set<CommentBody> commentBodies;
+    private String image;
+    private OffsetDateTime createdDate;
+    private OffsetDateTime updatedDate;
 
     public Event initEvent() {
         Event event = new Event();
         event.setName(name);
         event.setDate(date);
+        event.setImage(Base64.decode(image));
         return event;
     }
 
@@ -44,12 +50,12 @@ public class EventBody {
         this.sportId = sportId;
     }
 
-    public Integer getHostTeamId() {
-        return hostTeamId;
+    public Integer getLeagueId() {
+        return leagueId;
     }
 
-    public void setHostTeamId(Integer hostTeamId) {
-        this.hostTeamId = hostTeamId;
+    public void setLeagueId(Integer leagueId) {
+        this.leagueId = leagueId;
     }
 
     public Integer getGuestTeamId() {
@@ -60,12 +66,35 @@ public class EventBody {
         this.guestTeamId = guestTeamId;
     }
 
-    public List<CommentBody> getCommentBodies() {
+    public Set<CommentBody> getCommentBodies() {
         return commentBodies;
     }
 
-    public void setCommentBodies(List<CommentBody> commentBodies) {
+    public void setCommentBodies(Set<CommentBody> commentBodies) {
         this.commentBodies = commentBodies;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public OffsetDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(OffsetDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public OffsetDateTime getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(OffsetDateTime updatedDate) {
+        this.updatedDate = updatedDate;
+    }
 }
