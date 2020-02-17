@@ -4,12 +4,17 @@ import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nbu.sportsandrules.entity.Event;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 public class EventBody {
     private Integer id;
     private String name;
+
+    @JsonProperty("timestamp")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
     private OffsetDateTime date;
     private Integer sportId;
     private Integer leagueId;
