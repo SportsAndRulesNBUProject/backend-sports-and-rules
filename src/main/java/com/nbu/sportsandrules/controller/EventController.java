@@ -50,7 +50,7 @@ public class EventController {
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Event> addEvent(EventBody eventBody) {
+    public ResponseEntity<Event> addEvent(@RequestBody EventBody eventBody) {
         Event newEvent = eventBody.initEvent();
 
         Sport sport = sportService.getSportById(eventBody.getSportId());

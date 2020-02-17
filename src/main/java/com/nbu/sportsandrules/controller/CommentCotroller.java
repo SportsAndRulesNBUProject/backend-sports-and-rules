@@ -38,7 +38,7 @@ public class CommentCotroller {
 
     @PostMapping("event")
     @PreAuthorize("hasAnyRole('USER','MODERATOR','ADMIN')")
-    public ResponseEntity<CommentBody> addEventComment(CommentBody commentBody) {
+    public ResponseEntity<CommentBody> addEventComment(@RequestBody CommentBody commentBody) {
         Comment comment = commentBody.buildComment();
         comment.setUser(getCurrentUser());
         comment.setEvent(eventService.getEventById(commentBody.getEventId()));

@@ -24,7 +24,7 @@ public class Event {
     private Sport sport;
 
     @JoinColumn(name = "guest_team_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Team guestTeam;
 
     @OneToMany(mappedBy = "event")
