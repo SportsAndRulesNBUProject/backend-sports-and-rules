@@ -14,11 +14,11 @@ public class Comment {
     private String comment;
 
     @JoinColumn(name = "user_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private User user;
 
     @JoinColumn(name = "event_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Event event;
 
     @JoinColumn(name = "league_id")
