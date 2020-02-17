@@ -6,6 +6,8 @@ import com.nbu.sportsandrules.entity.SportCategory;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 public class SportCategoryBody {
+    private Integer id;
+
     private String name;
 
     private String description;
@@ -56,5 +58,13 @@ public class SportCategoryBody {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

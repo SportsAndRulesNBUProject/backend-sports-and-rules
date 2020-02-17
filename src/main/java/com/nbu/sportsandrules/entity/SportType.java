@@ -36,6 +36,7 @@ public class SportType {
         sportTypeBody.setName(name);
         sportTypeBody.setDescription(description);
         sportTypeBody.setImage(Base64.encode(image));
+        sportTypeBody.setId(id);
         return sportTypeBody;
     }
 

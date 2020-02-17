@@ -47,12 +47,12 @@ public class SportCategoryController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<SportCategory> getSportCategoryById(@PathVariable("id") Integer id) {
+    public ResponseEntity<SportCategoryBody> getSportCategoryById(@PathVariable("id") Integer id) {
         SportCategory sportCategory = sportCategoryService.getSportCategoryByid(id);
         if (sportCategory == null) {
-            return new ResponseEntity<SportCategory>(HttpStatus.NOT_FOUND);
+            return new ResponseEntity<>(HttpStatus.NOT_FOUND);
         }
-        return new ResponseEntity<SportCategory>(sportCategory, HttpStatus.OK);
+        return new ResponseEntity<>(sportCategory.buildBody(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}/sports")
