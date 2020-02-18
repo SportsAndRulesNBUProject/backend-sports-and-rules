@@ -8,6 +8,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -50,7 +51,7 @@ public class Event {
     public EventBody buildEventBody() {
         EventBody eventBody = new EventBody();
         eventBody.setName(name);
-        eventBody.setDate(date);
+        eventBody.setDate(date.format(DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
         eventBody.setImage(Base64.encode(image));
         eventBody.setCreatedDate(createdDate);
         eventBody.setUpdatedDate(updatedDate);
