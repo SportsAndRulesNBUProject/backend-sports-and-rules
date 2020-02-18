@@ -2,6 +2,7 @@ package com.nbu.sportsandrules.controller.body;
 
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Set;
@@ -15,21 +16,24 @@ public class EventBody {
     private Integer id;
     private String name;
 
-    private String date;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private ZonedDateTime date;
     private Integer sportId;
     private Integer leagueId;
     private Integer guestTeamId;
     private Set<CommentBody> commentBodies;
     private String image;
 
-    private OffsetDateTime createdDate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private ZonedDateTime createdDate;
 
-    private OffsetDateTime updatedDate;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private ZonedDateTime updatedDate;
 
     public Event initEvent() {
         Event event = new Event();
         event.setName(name);
-        event.setDate(LocalDate.parse(date, DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm")));
+        event.setDate(date);
         event.setImage(Base64.decode(image));
         return event;
     }
@@ -42,11 +46,11 @@ public class EventBody {
         this.name = name;
     }
 
-    public String getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 
@@ -90,19 +94,19 @@ public class EventBody {
         this.image = image;
     }
 
-    public OffsetDateTime getCreatedDate() {
+    public ZonedDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(OffsetDateTime createdDate) {
+    public void setCreatedDate(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public OffsetDateTime getUpdatedDate() {
+    public ZonedDateTime getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(OffsetDateTime updatedDate) {
+    public void setUpdatedDate(ZonedDateTime updatedDate) {
         this.updatedDate = updatedDate;
     }
 

@@ -4,6 +4,7 @@ import com.nbu.sportsandrules.controller.body.CommentBody;
 
 import javax.persistence.*;
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 @Entity
 public class Comment {
@@ -33,7 +34,7 @@ public class Comment {
     @ManyToOne(cascade = CascadeType.ALL)
     private Athlete athlete;
 
-    private OffsetDateTime createdAt;
+    private ZonedDateTime createdAt;
 
     public Comment() {
     }
@@ -94,11 +95,11 @@ public class Comment {
         this.athlete = athlete;
     }
 
-    public OffsetDateTime getCreatedAt() {
+    public ZonedDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(OffsetDateTime createdAt) {
+    public void setCreatedAt(ZonedDateTime createdAt) {
         this.createdAt = createdAt;
     }
 }

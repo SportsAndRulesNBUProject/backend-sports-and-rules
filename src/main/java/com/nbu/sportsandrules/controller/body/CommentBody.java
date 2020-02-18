@@ -1,19 +1,17 @@
 package com.nbu.sportsandrules.controller.body;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nbu.sportsandrules.entity.Comment;
 import com.nbu.sportsandrules.entity.User;
 
-import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 public class CommentBody {
     private String comment;
     private Integer eventId;
 
-    @JsonProperty("timestamp")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private OffsetDateTime createdAt;
+    private ZonedDateTime createdAt;
     private Integer userId;
     private User user;
 
@@ -40,11 +38,11 @@ public class CommentBody {
         this.comment = comment;
     }
 
-    public OffsetDateTime getCreatedAt() {
+    public ZonedDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public void setCreatedAt(OffsetDateTime createdAt) {
+    public void setCreatedAt(ZonedDateTime createdAt) {
         this.createdAt = createdAt;
     }
 

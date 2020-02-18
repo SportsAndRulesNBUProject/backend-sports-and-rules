@@ -7,6 +7,7 @@ import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,30 +19,30 @@ public class Event {
 
     private String name;
 
-    private LocalDate date;
+    private ZonedDateTime date;
 
     @JoinColumn(name = "sport_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Sport sport;
 
     @JoinColumn(name = "guest_team_id")
-    @ManyToOne(cascade = CascadeType.MERGE)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Team guestTeam;
 
     @OneToMany(fetch = FetchType.EAGER, mappedBy = "event")
     private Set<Comment> comments;
 
     @JoinColumn(name = "league_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private League league;
 
     @Lob
     @Basic(fetch = FetchType.LAZY)
     private byte[] image;
 
-    private OffsetDateTime createdDate;
+    private ZonedDateTime createdDate;
 
-    private OffsetDateTime updatedDate;
+    private ZonedDateTime updatedDate;
 
     public Event() {
     }
@@ -49,7 +50,7 @@ public class Event {
     public EventBody buildEventBody() {
         EventBody eventBody = new EventBody();
         eventBody.setName(name);
-        eventBody.setDate(date.toString());
+        eventBody.setDate(date);
         eventBody.setImage(Base64.encode(image));
         eventBody.setCreatedDate(createdDate);
         eventBody.setUpdatedDate(updatedDate);
@@ -66,6 +67,9 @@ public class Event {
 
         eventBody.setCommentBodies(commentBodies);
         eventBody.setId(id);
+        eventBody.setSportId(sport.getId());
+        eventBody.setGuestTeamId(guestTeam.getId());
+        eventBody.setLeagueId(league.getId());
 
         return eventBody;
     }
@@ -86,11 +90,11 @@ public class Event {
         this.name = name;
     }
 
-    public LocalDate getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 
@@ -134,19 +138,19 @@ public class Event {
         this.image = image;
     }
 
-    public OffsetDateTime getCreatedDate() {
+    public ZonedDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(OffsetDateTime createdDate) {
+    public void setCreatedDate(ZonedDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public OffsetDateTime getUpdatedDate() {
+    public ZonedDateTime getUpdatedDate() {
         return updatedDate;
     }
 
-    public void setUpdatedDate(OffsetDateTime updatedDate) {
+    public void setUpdatedDate(ZonedDateTime updatedDate) {
         this.updatedDate = updatedDate;
     }
 }

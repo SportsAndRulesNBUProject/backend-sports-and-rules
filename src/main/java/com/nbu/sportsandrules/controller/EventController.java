@@ -1,6 +1,7 @@
 package com.nbu.sportsandrules.controller;
 
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
 import com.nbu.sportsandrules.entity.League;
@@ -61,8 +62,8 @@ public class EventController {
         newEvent.setLeague(league);
         newEvent.setGuestTeam(guestTeam);
 
-        newEvent.setCreatedDate(OffsetDateTime.now());
-        newEvent.setUpdatedDate(OffsetDateTime.now());
+        newEvent.setCreatedDate(ZonedDateTime.now());
+        newEvent.setUpdatedDate(ZonedDateTime.now());
 
         eventService.addEvent(newEvent);
         return new ResponseEntity<Event>(HttpStatus.ACCEPTED);

@@ -16,6 +16,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @Controller
@@ -42,7 +43,7 @@ public class CommentCotroller {
         Comment comment = commentBody.buildComment();
         comment.setUser(getCurrentUser());
         comment.setEvent(eventService.getEventById(commentBody.getEventId()));
-        comment.setCreatedAt(OffsetDateTime.now());
+        comment.setCreatedAt(ZonedDateTime.now());
         commentService.addComment(comment);
 
         return new ResponseEntity<>(HttpStatus.ACCEPTED);
