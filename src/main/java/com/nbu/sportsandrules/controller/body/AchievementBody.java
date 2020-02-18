@@ -1,6 +1,7 @@
 package com.nbu.sportsandrules.controller.body;
 
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -12,9 +13,8 @@ public class AchievementBody {
     private String description;
     private Double score;
 
-    @JsonProperty("timestamp")
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
-    private OffsetDateTime date;
+    private ZonedDateTime date;
 
     public Achievement initAchievement() {
         Achievement achievement = new Achievement();
@@ -57,11 +57,11 @@ public class AchievementBody {
         this.score = score;
     }
 
-    public OffsetDateTime getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(OffsetDateTime date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 
