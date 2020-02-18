@@ -2,16 +2,11 @@ package com.nbu.sportsandrules.entity;
 
 import java.util.Set;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nbu.sportsandrules.controller.body.TeamBody;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 @Entity
 public class Team {
@@ -31,7 +26,7 @@ public class Team {
     private Set<Athlete> athletes;
 
     @JsonIgnore
-    @OneToMany(mappedBy = "hostTeam")
+    @OneToMany(mappedBy = "league")
     private Set<Event> hostEvents;
 
     @JsonIgnore
@@ -41,6 +36,12 @@ public class Team {
     @JsonIgnore
     @OneToMany(mappedBy = "team")
     private Set<Comment> comments;
+
+    private String country;
+
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] image;
 
     public Team() {
     }
@@ -101,11 +102,29 @@ public class Team {
         this.comments = comments;
     }
 
+    public String getCountry() {
+        return country;
+    }
+
+    public void setCountry(String country) {
+        this.country = country;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
     public TeamBody initTeamBody() {
         TeamBody teamBody = new TeamBody();
         teamBody.setId(id);
         teamBody.setLeagueId(league.getId());
         teamBody.setName(name);
+        teamBody.setCountry(country);
+        teamBody.setImage(Base64.encode(image));
         return teamBody;
     }
 }

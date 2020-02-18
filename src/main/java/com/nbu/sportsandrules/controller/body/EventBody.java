@@ -1,22 +1,40 @@
 package com.nbu.sportsandrules.controller.body;
 
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
+import java.util.Set;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import com.nbu.sportsandrules.entity.Event;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 public class EventBody {
+    private Integer id;
     private String name;
-    private OffsetDateTime date;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private ZonedDateTime date;
     private Integer sportId;
-    private Integer hostTeamId;
+    private Integer leagueId;
     private Integer guestTeamId;
-    private List<CommentBody> commentBodies;
+    private Set<CommentBody> commentBodies;
+    private String image;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private ZonedDateTime createdDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm")
+    private ZonedDateTime updatedDate;
 
     public Event initEvent() {
         Event event = new Event();
         event.setName(name);
         event.setDate(date);
+        event.setImage(Base64.decode(image));
         return event;
     }
 
@@ -28,11 +46,11 @@ public class EventBody {
         this.name = name;
     }
 
-    public OffsetDateTime getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(OffsetDateTime date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 
@@ -44,12 +62,12 @@ public class EventBody {
         this.sportId = sportId;
     }
 
-    public Integer getHostTeamId() {
-        return hostTeamId;
+    public Integer getLeagueId() {
+        return leagueId;
     }
 
-    public void setHostTeamId(Integer hostTeamId) {
-        this.hostTeamId = hostTeamId;
+    public void setLeagueId(Integer leagueId) {
+        this.leagueId = leagueId;
     }
 
     public Integer getGuestTeamId() {
@@ -60,12 +78,43 @@ public class EventBody {
         this.guestTeamId = guestTeamId;
     }
 
-    public List<CommentBody> getCommentBodies() {
+    public Set<CommentBody> getCommentBodies() {
         return commentBodies;
     }
 
-    public void setCommentBodies(List<CommentBody> commentBodies) {
+    public void setCommentBodies(Set<CommentBody> commentBodies) {
         this.commentBodies = commentBodies;
     }
 
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public ZonedDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(ZonedDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public ZonedDateTime getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(ZonedDateTime updatedDate) {
+        this.updatedDate = updatedDate;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
+    }
 }

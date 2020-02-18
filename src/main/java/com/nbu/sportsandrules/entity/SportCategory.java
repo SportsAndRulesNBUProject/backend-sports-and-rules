@@ -43,6 +43,7 @@ public class SportCategory {
         sportCategoryBody.setName(name);
         sportCategoryBody.setDescription(description);
         sportCategoryBody.setImage(Base64.encode(image));
+        sportCategoryBody.setId(id);
         return sportCategoryBody;
     }
 

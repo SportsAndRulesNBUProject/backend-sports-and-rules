@@ -1,6 +1,7 @@
 package com.nbu.sportsandrules.entity;
 
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -24,7 +25,7 @@ public class Achievement {
 
     private Double score;
 
-    private OffsetDateTime date;
+    private ZonedDateTime date;
 
     @ManyToOne
     @JoinColumn(name = "sport_id")
@@ -66,11 +67,11 @@ public class Achievement {
         this.score = score;
     }
 
-    public OffsetDateTime getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(OffsetDateTime date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 

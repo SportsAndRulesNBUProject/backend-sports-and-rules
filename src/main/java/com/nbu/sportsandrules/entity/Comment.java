@@ -1,6 +1,10 @@
 package com.nbu.sportsandrules.entity;
 
+import com.nbu.sportsandrules.controller.body.CommentBody;
+
 import javax.persistence.*;
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 
 @Entity
 public class Comment {
@@ -11,11 +15,11 @@ public class Comment {
     private String comment;
 
     @JoinColumn(name = "user_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private User user;
 
     @JoinColumn(name = "event_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE)
     private Event event;
 
     @JoinColumn(name = "league_id")
@@ -29,6 +33,8 @@ public class Comment {
     @JoinColumn(name = "athlete_id")
     @ManyToOne(cascade = CascadeType.ALL)
     private Athlete athlete;
+
+    private ZonedDateTime createdAt;
 
     public Comment() {
     }
@@ -87,5 +93,13 @@ public class Comment {
 
     public void setAthlete(Athlete athlete) {
         this.athlete = athlete;
+    }
+
+    public ZonedDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(ZonedDateTime createdAt) {
+        this.createdAt = createdAt;
     }
 }

@@ -13,8 +13,6 @@ public interface EventRepository extends CrudRepository<Event, Integer> {
 
     List<Event> findByName(String name);
 
-    List<Event> findByHostTeamId(Integer Id);
-
     List<Event> findByGuestTeamId(Integer Id);
 
     List<Event> findByDate(OffsetDateTime date);

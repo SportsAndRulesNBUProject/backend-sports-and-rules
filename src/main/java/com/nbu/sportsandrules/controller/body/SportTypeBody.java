@@ -4,6 +4,7 @@ import com.nbu.sportsandrules.entity.SportType;
 import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 public class SportTypeBody {
+    private Integer id;
     private String name;
     private String description;
     private String image;
@@ -39,5 +40,13 @@ public class SportTypeBody {
 
     public void setImage(String image) {
         this.image = image;
+    }
+
+    public Integer getId() {
+        return id;
+    }
+
+    public void setId(Integer id) {
+        this.id = id;
     }
 }

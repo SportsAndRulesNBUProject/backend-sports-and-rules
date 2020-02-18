@@ -3,19 +3,11 @@ package com.nbu.sportsandrules.entity;
 import java.util.List;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.*;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.nbu.sportsandrules.controller.body.LeagueBody;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
 
 @Entity
 public class League {
@@ -49,6 +41,14 @@ public class League {
     @ManyToOne
     @JoinColumn(name = "sport_id")
     private Sport sport;
+
+    @OneToMany(mappedBy = "league")
+    @JsonIgnore
+    private List<Event> events;
+
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] image;
 
     public League() {
     }
@@ -109,12 +109,21 @@ public class League {
         this.comments = comments;
     }
 
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
     public LeagueBody initLeagueBody() {
         LeagueBody body = new LeagueBody();
         body.setId(id);
         body.setCountry(country);
         body.setName(name);
         body.setSportId(sport.getId());
+        body.setImage(Base64.encode(image));
         return body;
     }
 
@@ -126,4 +135,11 @@ public class League {
         this.athletes = athletes;
     }
 
+    public List<Event> getEvents() {
+        return events;
+    }
+
+    public void setEvents(List<Event> events) {
+        this.events = events;
+    }
 }

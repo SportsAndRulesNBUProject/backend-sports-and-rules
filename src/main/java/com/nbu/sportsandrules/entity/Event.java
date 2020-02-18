@@ -1,7 +1,14 @@
 package com.nbu.sportsandrules.entity;
 
+import com.nbu.sportsandrules.controller.body.CommentBody;
+import com.nbu.sportsandrules.controller.body.EventBody;
+import com.sun.org.apache.xerces.internal.impl.dv.util.Base64;
+
 import javax.persistence.*;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
+import java.util.HashSet;
 import java.util.Set;
 
 @Entity
@@ -12,24 +19,59 @@ public class Event {
 
     private String name;
 
-    private OffsetDateTime date;
+    private ZonedDateTime date;
 
     @JoinColumn(name = "sport_id")
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.EAGER)
     private Sport sport;
 
-    @JoinColumn(name = "host_team_id")
-    @ManyToOne(cascade = CascadeType.ALL)
-    private Team hostTeam;
-
     @JoinColumn(name = "guest_team_id")
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.EAGER)
     private Team guestTeam;
 
-    @OneToMany(mappedBy = "event")
+    @OneToMany(fetch = FetchType.EAGER, mappedBy = "event")
     private Set<Comment> comments;
 
+    @JoinColumn(name = "league_id")
+    @ManyToOne(fetch = FetchType.EAGER)
+    private League league;
+
+    @Lob
+    @Basic(fetch = FetchType.LAZY)
+    private byte[] image;
+
+    private ZonedDateTime createdDate;
+
+    private ZonedDateTime updatedDate;
+
     public Event() {
+    }
+
+    public EventBody buildEventBody() {
+        EventBody eventBody = new EventBody();
+        eventBody.setName(name);
+        eventBody.setDate(date);
+        eventBody.setImage(Base64.encode(image));
+        eventBody.setCreatedDate(createdDate);
+        eventBody.setUpdatedDate(updatedDate);
+        Set<CommentBody> commentBodies = new HashSet<>();
+        for (Comment comment : comments) {
+            CommentBody commentBody = new CommentBody();
+            commentBody.setComment(comment.getComment());
+            commentBody.setCreatedAt(comment.getCreatedAt());
+            commentBody.setUserId(comment.getUser().getId());
+            commentBody.setUser(comment.getUser());
+            commentBody.setEventId(this.id);
+            commentBodies.add(commentBody);
+        }
+
+        eventBody.setCommentBodies(commentBodies);
+        eventBody.setId(id);
+        eventBody.setSportId(sport.getId());
+        eventBody.setGuestTeamId(guestTeam.getId());
+        eventBody.setLeagueId(league.getId());
+
+        return eventBody;
     }
 
     public Integer getId() {
@@ -48,11 +90,11 @@ public class Event {
         this.name = name;
     }
 
-    public OffsetDateTime getDate() {
+    public ZonedDateTime getDate() {
         return date;
     }
 
-    public void setDate(OffsetDateTime date) {
+    public void setDate(ZonedDateTime date) {
         this.date = date;
     }
 
@@ -62,14 +104,6 @@ public class Event {
 
     public void setSport(Sport sport) {
         this.sport = sport;
-    }
-
-    public Team getHostTeam() {
-        return hostTeam;
-    }
-
-    public void setHostTeam(Team hostTeam) {
-        this.hostTeam = hostTeam;
     }
 
     public Team getGuestTeam() {
@@ -86,5 +120,37 @@ public class Event {
 
     public void setComments(Set<Comment> comments) {
         this.comments = comments;
+    }
+
+    public League getLeague() {
+        return league;
+    }
+
+    public void setLeague(League league) {
+        this.league = league;
+    }
+
+    public byte[] getImage() {
+        return image;
+    }
+
+    public void setImage(byte[] image) {
+        this.image = image;
+    }
+
+    public ZonedDateTime getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(ZonedDateTime createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public ZonedDateTime getUpdatedDate() {
+        return updatedDate;
+    }
+
+    public void setUpdatedDate(ZonedDateTime updatedDate) {
+        this.updatedDate = updatedDate;
     }
 }

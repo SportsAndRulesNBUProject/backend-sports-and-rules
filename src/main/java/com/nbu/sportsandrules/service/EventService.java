@@ -19,10 +19,6 @@ public class EventService {
         return eventRepository.findById(id).get();
     }
 
-    public List<Event> getHostTeamEvents(Integer id) {
-        return eventRepository.findByHostTeamId(id);
-    }
-
     public List<Event> getGuestTeamEvents(Integer id) {
         return eventRepository.findByGuestTeamId(id);
     }

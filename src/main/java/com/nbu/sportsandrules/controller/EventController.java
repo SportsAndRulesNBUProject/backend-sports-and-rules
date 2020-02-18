@@ -1,7 +1,11 @@
 package com.nbu.sportsandrules.controller;
 
+import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.List;
 
+import com.nbu.sportsandrules.entity.League;
+import com.nbu.sportsandrules.service.LeagueService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,27 +37,33 @@ public class EventController {
     @Autowired
     private TeamService teamService;
 
+    @Autowired
+    private LeagueService leagueService;
+
     @GetMapping("all")
     public ResponseEntity<List<Event>> getAllEvents() {
         return new ResponseEntity<>(eventService.getAllEvents(), HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    public Event getEventById(@PathVariable("id") Integer id) {
-        return eventService.getEventById(id);
+    public ResponseEntity<EventBody> getEventById(@PathVariable("id") Integer id) {
+        return new ResponseEntity<>(eventService.getEventById(id).buildEventBody(), HttpStatus.OK);
     }
 
     @PostMapping("/add")
-    public ResponseEntity<Event> addEvent(@PathVariable("id") EventBody eventBody) {
+    public ResponseEntity<Event> addEvent(@RequestBody EventBody eventBody) {
         Event newEvent = eventBody.initEvent();
 
         Sport sport = sportService.getSportById(eventBody.getSportId());
-        Team hostTeam = teamService.getTeamById(eventBody.getHostTeamId());
+        League league = leagueService.getLeagueById(eventBody.getLeagueId());
         Team guestTeam = teamService.getTeamById(eventBody.getGuestTeamId());
 
         newEvent.setSport(sport);
-        newEvent.setHostTeam(hostTeam);
+        newEvent.setLeague(league);
         newEvent.setGuestTeam(guestTeam);
+
+        newEvent.setCreatedDate(ZonedDateTime.now());
+        newEvent.setUpdatedDate(ZonedDateTime.now());
 
         eventService.addEvent(newEvent);
         return new ResponseEntity<Event>(HttpStatus.ACCEPTED);

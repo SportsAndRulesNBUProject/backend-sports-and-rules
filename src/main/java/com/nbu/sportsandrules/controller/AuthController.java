@@ -12,7 +12,9 @@ import com.nbu.sportsandrules.entity.User;
 import com.nbu.sportsandrules.repository.RoleRepository;
 import com.nbu.sportsandrules.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -95,5 +97,16 @@ public class AuthController {
         userRepository.save(user);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
+    }
+
+    @GetMapping("user")
+    @PreAuthorize("hasAnyRole('USER','MODERATOR','ADMIN')")
+    public ResponseEntity<Integer> getCurrentUser() {
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        if (!auth.getName().equals("anonymousUser")) {
+            return new ResponseEntity<>(userRepository.findByUsername(auth.getName()).get().getId(), HttpStatus.OK);
+        }
+
+        return new ResponseEntity<>(HttpStatus.NOT_FOUND);
     }
 }
