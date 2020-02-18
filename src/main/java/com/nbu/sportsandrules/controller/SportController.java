@@ -1,6 +1,7 @@
 package com.nbu.sportsandrules.controller;
 
 import java.time.OffsetDateTime;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -185,7 +186,7 @@ public class SportController {
             a.setDescription(newDescription);
         }
 
-        OffsetDateTime newDate = achievementBody.getDate();
+        ZonedDateTime newDate = achievementBody.getDate();
         if (newDate != null) {
             a.setDate(newDate);
         }
